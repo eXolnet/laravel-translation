@@ -13,16 +13,16 @@
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
-        "phpunit/phpunit" : "^6",
-        "orchestra/testbench" : "~3.4.6|~3.5.0|~3.6.0"
+        "phpunit/phpunit": "^6",
+        "orchestra/testbench": "~3.4.6|~3.5.0|~3.6.0"
+    },
+    "suggest": {
+        "exolnet/laravel-translation-editor": "Allows translation edition through the browser"
     },
     "autoload": {
         "psr-4": {
             "Exolnet\\Translation\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
