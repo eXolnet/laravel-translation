@@ -1,4 +1,4 @@
-# laravel-translation
+# Laravel Translation
 
 [![Latest Stable Version](https://poser.pugx.org/eXolnet/laravel-translation/v/stable?format=flat-square)](https://packagist.org/packages/eXolnet/laravel-translation)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
