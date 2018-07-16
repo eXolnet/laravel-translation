@@ -34,7 +34,6 @@ class Router extends LaravelRouter
     {
         parent::__construct($events, $container);
 
-        $this->routes        = $this->container['routes'];
         $this->localeService = $this->container->make(LocaleService::class);
     }
 

@@ -5,6 +5,7 @@ namespace Exolnet\Translation;
 use Exolnet\Routing\Router;
 use Exolnet\Routing\UrlGenerator;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,10 +36,12 @@ class TranslationServiceProvider extends ServiceProvider
             throw new TranslationException('TranslationServiceProvider should be registered before loading the Kernel');
         }
 
-        $this->mergeConfigFrom(__DIR__.'/../config/translation.php', 'translation');
-
         $this->registerRouter();
         $this->registerUrlGenerator();
+
+        $this->app->afterResolving(Config::class, function () {
+            $this->mergeConfigFrom(__DIR__.'/../config/translation.php', 'translation');
+        });
     }
 
     /**
@@ -60,8 +63,11 @@ class TranslationServiceProvider extends ServiceProvider
      */
     protected function registerUrlGenerator()
     {
-        $this->app->singleton('url', function ($app) {
-            $routes = $app['router']->getRoutes();
+        $this->app->singleton('url', function (Container $app) {
+            /** @var \Exolnet\Routing\Router $router */
+            $router = $app['router'];
+
+            $routes = $router->getRoutes();
 
             // The URL generator needs the route collection that exists on the router.
             // Keep in mind this is an object, so we're passing by references here
