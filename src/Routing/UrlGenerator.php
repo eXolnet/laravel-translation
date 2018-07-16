@@ -1,4 +1,4 @@
-<?php namespace Exolnet\Routing;
+<?php namespace Exolnet\Translation\Routing;
 
 use App;
 use Config;

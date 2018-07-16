@@ -1,10 +1,9 @@
-<?php namespace Exolnet\Routing;
+<?php namespace Exolnet\Translation\Routing;
 
 use App;
 use Closure;
 use Exolnet\Http\Middleware\SetLocaleFromUrlSegment;
 use Exolnet\Translation\LocaleService;
-use Exolnet\Translation\TranslationException;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Routing\Router as LaravelRouter;

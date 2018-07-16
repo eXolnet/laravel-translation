@@ -2,8 +2,8 @@
 
 namespace Exolnet\Translation;
 
-use Exolnet\Routing\Router;
-use Exolnet\Routing\UrlGenerator;
+use Exolnet\Translation\Routing\Router;
+use Exolnet\Translation\Routing\UrlGenerator;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
@@ -64,7 +64,7 @@ class TranslationServiceProvider extends ServiceProvider
     protected function registerUrlGenerator()
     {
         $this->app->singleton('url', function (Container $app) {
-            /** @var \Exolnet\Routing\Router $router */
+            /** @var \Exolnet\Translation\Routing\Router $router */
             $router = $app['router'];
 
             $routes = $router->getRoutes();
