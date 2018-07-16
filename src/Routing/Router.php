@@ -24,19 +24,6 @@ class Router extends LaravelRouter
     protected $localeService;
 
     /**
-     * Create a new Router instance.
-     *
-     * @param  \Illuminate\Contracts\Events\Dispatcher $events
-     * @param  \Illuminate\Container\Container         $container
-     */
-    public function __construct(Dispatcher $events, Container $container = null)
-    {
-        parent::__construct($events, $container);
-
-        $this->localeService = $this->container->make(LocaleService::class);
-    }
-
-    /**
      * @return string|null
      */
     protected function getLastLocale()
@@ -53,7 +40,7 @@ class Router extends LaravelRouter
      */
     public function getLocales()
     {
-        return $this->localeService->getSupportedLocales();
+        return $this->getLocaleService()->getLocalesAvailable();
     }
 
     /**
@@ -61,7 +48,7 @@ class Router extends LaravelRouter
      */
     public function getBaseLocale()
     {
-        return $this->localeService->getBaseLocale();
+        return $this->getLocaleService()->getLocaleBase();
     }
 
     /**
@@ -226,5 +213,17 @@ class Router extends LaravelRouter
 
             return null;
         }, $callback);
+    }
+
+    /**
+     * @return \Exolnet\Translation\LocaleService
+     */
+    protected function getLocaleService()
+    {
+        if (! $this->localeService) {
+            $this->localeService = $this->container->make(LocaleService::class);
+        }
+
+        return $this->localeService;
     }
 }
