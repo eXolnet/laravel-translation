@@ -3,6 +3,7 @@
     "description": "Library to manage Laravel translations",
     "keywords": [
         "exolnet",
+        "laravel",
         "laravel-translation"
     ],
     "homepage": "https://github.com/eXolnet/laravel-translations",
@@ -15,18 +16,18 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
-        "illuminate/console": "~5.4.0|~5.5.0|~5.6.0",
+        "php": ">=7.0",
+        "dimsav/laravel-translatable": "^8.0",
         "illuminate/contracts": "~5.4.0|~5.5.0|~5.6.0",
-        "illuminate/http": "~5.4.0|~5.5.0|~5.6.0",
         "illuminate/support": "~5.4.0|~5.5.0|~5.6.0",
         "illuminate/routing": "~5.4.0|~5.5.0|~5.6.0",
         "illuminate/translation": "~5.4.0|~5.5.0|~5.6.0"
     },
     "require-dev": {
-        "mockery/mockery": "~0.9",
-        "phpunit/phpunit": "^6",
-        "orchestra/testbench": "~3.4.6|~3.5.0|~3.6.0"
+        "mockery/mockery": "^1.0",
+        "phpunit/phpunit": "^6.0",
+        "orchestra/testbench" : "^3.5",
+        "squizlabs/php_codesniffer": "^3.0"
     },
     "suggest": {
         "exolnet/laravel-translation-editor": "Allows translation edition through the browser"
@@ -42,8 +43,8 @@
         }
     },
     "scripts": {
-        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src",
-        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src",
+        "check-style": "vendor/bin/phpcs -p --standard=PSR2 config src tests",
+        "fix-style": "vendor/bin/phpcbf -p --standard=PSR2 config src tests",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
