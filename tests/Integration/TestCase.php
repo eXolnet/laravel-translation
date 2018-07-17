@@ -3,19 +3,20 @@
 namespace Exolnet\Translation\Tests\Integration;
 
 use Exolnet\Translation\TranslationServiceProvider;
+use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as Orchestra;
 
-class TestCase extends Orchestra
+abstract class TestCase extends Orchestra
 {
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * Resolve application implementation.
      *
-     * @return array
+     * @return \Illuminate\Foundation\Application
      */
-    protected function getPackageProviders($app)
+    protected function resolveApplication()
     {
-        return [
-            TranslationServiceProvider::class,
-        ];
+        return tap(parent::resolveApplication(), function (Application $app) {
+            $app->register(TranslationServiceProvider::class);
+        });
     }
 }

@@ -86,7 +86,7 @@ class TranslationServiceProvider extends ServiceProvider
                 return $this->app['session'];
             });
 
-            if (is_callable([$url, 'setKeyResolver'])) {
+            if (method_exists($url, 'setKeyResolver')) {
                 $url->setKeyResolver(function () {
                     return $this->app->make('config')->get('app.key');
                 });
