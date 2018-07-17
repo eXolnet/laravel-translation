@@ -9,6 +9,22 @@ use Orchestra\Testbench\TestCase as Orchestra;
 abstract class TestCase extends Orchestra
 {
     /**
+     * @return \Exolnet\Translation\Routing\Router
+     */
+    protected function getRouter()
+    {
+        return $this->app['router'];
+    }
+
+    /**
+     * @return \Exolnet\Translation\Routing\UrlGenerator
+     */
+    protected function getUrlGenerator()
+    {
+        return $this->app['url'];
+    }
+
+    /**
      * Resolve application implementation.
      *
      * @return \Illuminate\Foundation\Application
