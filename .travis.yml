@@ -22,4 +22,4 @@ before_script:
 
 script:
   - composer test
-  - composer check-style
+  - composer lint
