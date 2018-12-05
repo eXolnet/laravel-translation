@@ -27,7 +27,7 @@
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^6.0",
         "orchestra/testbench" : "^3.5",
-        "squizlabs/php_codesniffer": "^3.0"
+        "squizlabs/php_codesniffer": "^3.3.2"
     },
     "suggest": {
         "exolnet/laravel-translation-editor": "Allows translation edition through the browser"
