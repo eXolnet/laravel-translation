@@ -5,7 +5,6 @@ namespace Exolnet\Translation;
 use Exolnet\Translation\Routing\Router;
 use Exolnet\Translation\Routing\UrlGenerator;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,12 +15,9 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! $this->app->runningInConsole()) {
-            return;
-        }
 
         $this->publishes([
-            __DIR__.'/../config/translation.php' => config_path('translation.php'),
+            $this->getConfigFile() => config_path('translation.php'),
         ], 'config');
     }
 
@@ -39,9 +35,7 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerRouter();
         $this->registerUrlGenerator();
 
-        $this->app->afterResolving(Config::class, function () {
-            $this->mergeConfigFrom(__DIR__.'/../config/translation.php', 'translation');
-        });
+        $this->mergeConfigFrom($this->getConfigFile(), 'translation');
     }
 
     /**
@@ -113,5 +107,13 @@ class TranslationServiceProvider extends ServiceProvider
         return function ($app, $request) {
             $app['url']->setRequest($request);
         };
+    }
+
+    /**
+     * @return string
+     */
+    protected function getConfigFile(): string
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'translation.php';
     }
 }
