@@ -5,7 +5,6 @@ namespace Exolnet\Translation;
 use Exolnet\Translation\Routing\Router;
 use Exolnet\Translation\Routing\UrlGenerator;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Support\ServiceProvider;
 
 class TranslationServiceProvider extends ServiceProvider
@@ -23,15 +22,9 @@ class TranslationServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
-     *
-     * @throws \Exolnet\Translation\TranslationException
      */
     public function register()
     {
-        if ($this->app->has(HttpKernel::class)) {
-            throw new TranslationException('TranslationServiceProvider should be registered before loading the Kernel');
-        }
-
         $this->registerRouter();
         $this->registerUrlGenerator();
 
