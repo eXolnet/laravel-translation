@@ -42,6 +42,13 @@
             "Exolnet\\Translation\\Tests\\": "tests"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Exolnet\\Translation\\TranslationServiceProvider"
+            ]
+        }
+    },
     "scripts": {
         "lint": "vendor/bin/phpcs -p --standard=PSR2 config src tests",
         "lint-fix": "vendor/bin/phpcbf -p --standard=PSR2 config src tests",
