@@ -18,7 +18,7 @@ trait CustomRouterDispatcher
         /** @var \Exolnet\Translation\Routing\Router $newRouter */
         $newRouter = $this->app['router'];
 
-        foreach ($this->getMiddlewareGroups() as $key => $middlewares) {
+        foreach ($this->middlewareGroups as $key => $middlewares) {
             $newRouter->middlewareGroup($key, $middlewares);
         }
 
