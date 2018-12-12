@@ -2,14 +2,12 @@
 
 use App;
 use Closure;
-use Exolnet\Http\Middleware\SetLocaleFromUrlSegment;
+use Exolnet\Translation\Http\Middleware\SetLocaleFromUrlSegment;
 use Exolnet\Translation\LocaleService;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Routing\Router as LaravelRouter;
 use Mockery\Exception\RuntimeException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Redirect;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Router extends LaravelRouter
 {
@@ -98,8 +96,8 @@ class Router extends LaravelRouter
     /**
      * @param array|string $methods
      * @param string       $uri
-     * @param string       $action
-     * @return \Exolnet\Routing\Route|\Illuminate\Routing\Route
+     * @param mixed       $action
+     * @return \Exolnet\Translation\Routing\Route|\Illuminate\Routing\Route
      */
     protected function newRoute($methods, $uri, $action)
     {
@@ -204,7 +202,7 @@ class Router extends LaravelRouter
             // throw a not found exception otherwise we will return the instance.
             $instance = $this->container->make($class);
 
-            /** @var \Exolnet\Routing\Slugable $model */
+            /** @var \Exolnet\Translation\Routing\Slugable $model */
             $model = $instance->where($instance->getRouteKeyName(), $value)->first();
 
             if ($model && $model->getSlug() === $value) {
