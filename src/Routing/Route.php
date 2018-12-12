@@ -135,14 +135,35 @@ class Route extends LaravelRoute
         }
 
         // Validate base uri
-        if ($this->getBaseUri() !== $route->getBaseUri()) {
-            return false;
+        if(!$this->compareBaseUri($route)){
+           return false;
         }
+
 
         if ($this->uri() === $route->uri()) {
             return false;
         }
 
         return true;
+    }
+
+    protected function compareBaseUri(Route $route)
+    {
+        if ($this->getBaseUri() === $route->getBaseUri()) {
+            return true;
+        }
+
+        $currentRouteContainNeedle = (strpos($this->getBaseUri(), '%LOCALE%') === false
+            && strpos($route->getBaseUri(), '%LOCALE%') !== false);
+
+        $comparedRouteContainNeedle = (strpos($this->getBaseUri(), '%LOCALE%') !== false
+            && strpos($route->getBaseUri(), '%LOCALE%') === false);
+
+        if (!($currentRouteContainNeedle || $comparedRouteContainNeedle)) {
+            return false;
+        }
+
+        return strpos($route->getBaseUri(), $this->getBaseUri()) !== false
+            || strpos($this->getBaseUri(), $route->getBaseUri()) !== false;
     }
 }
