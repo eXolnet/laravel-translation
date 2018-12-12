@@ -171,7 +171,7 @@ class Router extends LaravelRouter
     {
         $this->bind($key, function ($value) use ($query, $callback) {
             if ($value === null) {
-                return;
+                return null;
             }
 
             if ($model = call_user_func($query, $value)) {
