@@ -2,18 +2,29 @@
 
 namespace Exolnet\Translation;
 
+use Exolnet\Translation\Listeners\LocaleUpdatedListener;
 use Exolnet\Translation\Routing\Router;
 use Exolnet\Translation\Routing\UrlGenerator;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 
-class TranslationServiceProvider extends ServiceProvider
+class TranslationServiceProvider extends EventServiceProvider
 {
+    /**
+     * @var array
+     */
+    protected $listen = [
+        \Illuminate\Foundation\Events\LocaleUpdated::class => [
+            LocaleUpdatedListener::class,
+        ],
+    ];
+
     /**
      * Bootstrap the application services.
      */
     public function boot()
     {
+        parent::boot();
 
         $this->publishes([
             $this->getConfigFile() => config_path('translation.php'),
