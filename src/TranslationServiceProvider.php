@@ -154,6 +154,9 @@ class TranslationServiceProvider extends ServiceProvider
             foreach ($extension->getDirectives() as $name => $callable) {
                 $this->app['blade.compiler']->directive($name, $callable);
             }
+            foreach ($extension->getConditionals() as $name => $callable) {
+                $this->app['blade.compiler']->if($name, $callable);
+            }
         }
     }
 

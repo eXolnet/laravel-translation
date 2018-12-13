@@ -252,4 +252,70 @@ class LocaleService
 
         return array_get($this->getLocalesAvailable()[$locale], 'native', '');
     }
+
+    /**
+     * Return the current locale native name
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleScript()
+    {
+        return $this->getLocaleScript($this->getCurrentLocale());
+    }
+
+    /**
+     * Return the locale native name for a specified locale
+     * @param string|null $locale
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleScript(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        if (!isset($this->getLocalesAvailable()[$locale])) {
+            return '';
+        }
+
+        return array_get($this->getLocalesAvailable()[$locale], 'script', '');
+    }
+
+    /**
+     * Returns current locale direction.
+     *
+     * @return string current locale direction
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleDirection()
+    {
+        return $this->getLocaleDirection($this->getCurrentLocale());
+    }
+
+    /**
+     * Returns locale direction.
+     *
+     * @param string|null $locale
+     * @return string current locale direction
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleDirection(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        switch ($this->getLocaleScript($locale)) {
+            // Other (historic) RTL scripts exist, but this list contains the only ones in current use.
+            case 'Arab':
+            case 'Hebr':
+            case 'Mong':
+            case 'Tfng':
+            case 'Thaa':
+                return 'rtl';
+            default:
+                return 'ltr';
+        }
+    }
 }
