@@ -194,4 +194,33 @@ class LocaleService
             setlocale(LC_ALL, ...$systemConfig);
         }
     }
+
+    /**
+     * Return the current locale name
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleName()
+    {
+        return $this->getLocaleName($this->getCurrentLocale());
+    }
+
+    /**
+     * Return the locale name for a specified locale
+     * @param string|null $locale
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleName(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        if (!isset($this->getLocalesAvailable()[$locale])) {
+            return '';
+        }
+
+        return array_get($this->getLocalesAvailable()[$locale], 'name', '');
+    }
 }
