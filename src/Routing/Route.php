@@ -134,11 +134,22 @@ class Route extends LaravelRoute
             return false;
         }
 
-        // Validate base uri
-        if(!$this->compareBaseUri($route)){
-           return false;
+        if ($this->getLocale() === $route->getLocale()) {
+            return false;
         }
 
+        if($this->getBaseUri() === '%LOCALE%' && $route->getBaseUri() === '/' && $route->uri() === '/'){
+            return true;
+        }
+
+        if($route->getBaseUri() === '%LOCALE%' && $this->getBaseUri() === '/' && $this->uri() === '/'){
+            return true;
+        }
+
+        // Validate base uri
+        if (!$this->compareBaseUri($route)) {
+            return false;
+        }
 
         if ($this->uri() === $route->uri()) {
             return false;
@@ -160,6 +171,14 @@ class Route extends LaravelRoute
             && strpos($route->getBaseUri(), '%LOCALE%') === false);
 
         if (!($currentRouteContainNeedle || $comparedRouteContainNeedle)) {
+            return false;
+        }
+
+        if ($this->getBaseUri() === '/' && $this->uri() === '/' && $route->getBaseUri() === '%LOCALE%') {
+            return true;
+        }
+
+        if ($this->getBaseUri() === '/') {
             return false;
         }
 
