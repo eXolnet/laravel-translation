@@ -13,6 +13,11 @@ return [
     |
     */
 
-    'available_locales' => [],
+    'available_locales' => [
+        'en' => ['regional' => 'en_CA'],
+        'fr' => ['regional' => 'fr_CA']
+    ],
+
+    'locale_suffix' => env('LARAVELTRANSLATION_LOCALE_SUFFIX', '.UTF-8'),
 
 ];
