@@ -25,14 +25,28 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * Resolve application implementation.
+     * Get package providers.
      *
-     * @return \Illuminate\Foundation\Application
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
      */
-    protected function resolveApplication()
+    protected function getPackageProviders($app)
     {
-        return tap(parent::resolveApplication(), function (Application $app) {
-            $app->register(TranslationServiceProvider::class);
-        });
+        return ['Exolnet\Translation\TranslationServiceProvider'];
+    }
+
+    /**
+     * Get package aliases.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return array
+     */
+    protected function getPackageAliases($app)
+    {
+        return [
+            'config' => 'Illuminate\Config\Repository'
+        ];
     }
 }
