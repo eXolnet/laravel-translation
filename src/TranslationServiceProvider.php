@@ -25,6 +25,11 @@ class TranslationServiceProvider extends ServiceProvider
         $this->publishes([
             $this->getConfigFile() => config_path('translation.php'),
         ], 'config');
+
+        $this->loadViewsFrom(
+            $this->getViewsPath(),
+            'laravel-translation'
+        );
     }
 
     /**
@@ -126,5 +131,16 @@ class TranslationServiceProvider extends ServiceProvider
             DIRECTORY_SEPARATOR . '..' .
             DIRECTORY_SEPARATOR . 'config' .
             DIRECTORY_SEPARATOR . 'translation.php';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getViewsPath(): string
+    {
+        return __DIR__ .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . 'resources' .
+            DIRECTORY_SEPARATOR . 'views';
     }
 }
