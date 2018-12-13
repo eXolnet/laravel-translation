@@ -2,7 +2,6 @@
 
 namespace Exolnet\Translation\Traits;
 
-
 trait CustomRouterDispatcher
 {
     /**

@@ -138,11 +138,11 @@ class Route extends LaravelRoute
             return false;
         }
 
-        if($this->getBaseUri() === '%LOCALE%' && $route->getBaseUri() === '/' && $route->uri() === '/'){
+        if ($this->getBaseUri() === '%LOCALE%' && $route->getBaseUri() === '/' && $route->uri() === '/') {
             return true;
         }
 
-        if($route->getBaseUri() === '%LOCALE%' && $this->getBaseUri() === '/' && $this->uri() === '/'){
+        if ($route->getBaseUri() === '%LOCALE%' && $this->getBaseUri() === '/' && $this->uri() === '/') {
             return true;
         }
 
