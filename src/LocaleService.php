@@ -223,4 +223,33 @@ class LocaleService
 
         return array_get($this->getLocalesAvailable()[$locale], 'name', '');
     }
+
+    /**
+     * Return the current locale native name
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleNativeName()
+    {
+        return $this->getLocaleNativeName($this->getCurrentLocale());
+    }
+
+    /**
+     * Return the locale native name for a specified locale
+     * @param string|null $locale
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleNativeName(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        if (!isset($this->getLocalesAvailable()[$locale])) {
+            return '';
+        }
+
+        return array_get($this->getLocalesAvailable()[$locale], 'native', '');
+    }
 }
