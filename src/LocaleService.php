@@ -52,7 +52,7 @@ class LocaleService
 
         $locales = $this->getLocalesAvailableBase();
 
-        if (!array_key_exists($this->getLocaleBase(), $locales) && !in_array($this->getLocaleBase(), $locales)) {
+        if (!array_key_exists($this->getLocaleBase(), $locales)) {
             throw new TranslationException('Laravel default locale is not in the available_locales array.');
         }
 
@@ -68,8 +68,7 @@ class LocaleService
      */
     public function isLocaleAvailable($locale)
     {
-        return array_key_exists($locale, $this->getLocalesAvailable()) ||
-                in_array($locale, $this->getLocalesAvailable());
+        return array_key_exists($locale, $this->getLocalesAvailable());
     }
 
     /**
