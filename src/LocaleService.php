@@ -247,10 +247,10 @@ class LocaleService
         }
 
         if (!isset($this->getLocalesAvailable()[$locale])) {
-            return '';
+            return $this->getLocaleName($locale);
         }
 
-        return array_get($this->getLocalesAvailable()[$locale], 'native', '');
+        return array_get($this->getLocalesAvailable()[$locale], 'native', $this->getLocaleName($locale));
     }
 
     /**
