@@ -46,7 +46,10 @@
         "laravel": {
             "providers": [
                 "Exolnet\\Translation\\TranslationServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "LaravelTranslation": "Exolnet\\Translation\\Facades\\LaravelTranslation"
+            }
         }
     },
     "scripts": {

@@ -32,11 +32,6 @@ class SetLocaleFromUrlSegment
 
         App::setLocale($locale);
 
-        // TODO-TR: Support something else than _CA.utf8 <trochette@exolnet.com>
-        setlocale(LC_COLLATE, $locale . '_CA.utf8');
-        setlocale(LC_CTYPE, $locale . '_CA.utf8');
-        setlocale(LC_TIME, $locale . '_CA.utf8');
-
         return $next($request);
     }
 }

@@ -13,6 +13,8 @@ return [
     |
     */
 
-    'available_locales' => [],
+    'available_locales' => [
+        'en' => ['system' => ['en_CA.UTF-8']],
+    ],
 
 ];

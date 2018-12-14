@@ -35,6 +35,7 @@ class Router extends LaravelRouter
 
     /**
      * @return array
+     * @throws \Exolnet\Translation\TranslationException
      */
     public function getLocales()
     {
@@ -51,23 +52,24 @@ class Router extends LaravelRouter
 
     /**
      * @return array
+     * @throws \Exolnet\Translation\TranslationException
      */
     public function getAlternateLocales()
     {
-        return array_filter($this->getLocales(), function ($locale) {
+        return array_filter(array_keys($this->getLocales()), function ($locale) {
             return App::getLocale() !== $locale;
         });
     }
 
     /**
-     * @param \Closure   $callback
+     * @param \Closure $callback
      * @param array|null $locales
-     * @param bool       $avoidPrefixOnBaseLocale
+     * @param bool $avoidPrefixOnBaseLocale
      */
     public function groupLocales(Closure $callback, array $locales = null, $avoidPrefixOnBaseLocale = false)
     {
         $this->stackLocales(function ($locale) use ($callback, $avoidPrefixOnBaseLocale) {
-            $shouldPrefixLocale = ! $avoidPrefixOnBaseLocale || $this->getBaseLocale() !== $locale;
+            $shouldPrefixLocale = !$avoidPrefixOnBaseLocale || $this->getBaseLocale() !== $locale;
             $prefix = $shouldPrefixLocale ? $locale : '';
 
             $this->group(['prefix' => $prefix, 'middleware' => SetLocaleFromUrlSegment::class], $callback);
@@ -75,8 +77,9 @@ class Router extends LaravelRouter
     }
 
     /**
-     * @param \Closure   $callback
+     * @param \Closure $callback
      * @param array|null $locales
+     * @throws \Exolnet\Translation\TranslationException
      */
     public function stackLocales(Closure $callback, array $locales = null)
     {
@@ -84,7 +87,12 @@ class Router extends LaravelRouter
             $locales = $this->getLocales();
         }
 
-        foreach ($locales as $locale) {
+        foreach ($locales as $localeKey => $localeInformations) {
+            $locale = $localeInformations;
+            if (is_array($localeInformations)) {
+                $locale = $localeKey;
+            }
+
             $this->localeStack[] = $locale;
 
             $callback($locale);
@@ -95,8 +103,8 @@ class Router extends LaravelRouter
 
     /**
      * @param array|string $methods
-     * @param string       $uri
-     * @param mixed       $action
+     * @param string $uri
+     * @param mixed $action
      * @return \Exolnet\Translation\Routing\Route|\Illuminate\Routing\Route
      */
     protected function newRoute($methods, $uri, $action)
@@ -131,19 +139,19 @@ class Router extends LaravelRouter
     {
         $route = $this->current();
 
-        if (! $route instanceof Route) {
+        if (!$route instanceof Route) {
             return [];
         }
 
         return $route->alternates();
     }
-
+    
     /**
      * @return \Exolnet\Translation\LocaleService
      */
     protected function getLocaleService()
     {
-        if (! $this->localeService) {
+        if (!$this->localeService) {
             $this->localeService = $this->container->make(LocaleService::class);
         }
 

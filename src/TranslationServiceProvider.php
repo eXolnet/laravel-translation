@@ -34,6 +34,7 @@ class TranslationServiceProvider extends ServiceProvider
     {
         $this->registerRouter();
         $this->registerUrlGenerator();
+        $this->registerLocaleService();
 
         $this->mergeConfigFrom($this->getConfigFile(), 'translation');
     }
@@ -94,6 +95,13 @@ class TranslationServiceProvider extends ServiceProvider
             });
 
             return $url;
+        });
+    }
+
+    protected function registerLocaleService()
+    {
+        $this->app->singleton(LocaleService::class, function (Container $app) {
+            return new LocaleService($app['config']);
         });
     }
 
