@@ -4,7 +4,7 @@ namespace Exolnet\Translation\Blade;
 
 use Exolnet\Translation\Facades\LaravelTranslation;
 
-class LanguageBladeExtension
+class LanguageBladeExtension implements BladeExtension
 {
     /**
      * @return array

@@ -2,6 +2,7 @@
 
 namespace Exolnet\Translation;
 
+use Exolnet\Translation\Blade\BladeExtension;
 use Exolnet\Translation\Blade\LanguageBladeExtension;
 use Exolnet\Translation\Listeners\LocaleUpdatedListener;
 use Exolnet\Translation\Routing\Router;
@@ -151,12 +152,8 @@ class TranslationServiceProvider extends ServiceProvider
     private function bootBladeExtensions()
     {
         foreach ($this->app->tagged('blade.extension') as $extension) {
-            foreach ($extension->getDirectives() as $name => $callable) {
-                $this->app['blade.compiler']->directive($name, $callable);
-            }
-            foreach ($extension->getConditionals() as $name => $callable) {
-                $this->app['blade.compiler']->if($name, $callable);
-            }
+            $this->addBladeDirectives($extension);
+            $this->addBladeConditionals($extension);
         }
     }
 
@@ -164,5 +161,25 @@ class TranslationServiceProvider extends ServiceProvider
     {
         $this->app->singleton(LanguageBladeExtension::class);
         $this->app->tag(LanguageBladeExtension::class, ['blade.extension']);
+    }
+
+    /**
+     * @param \Exolnet\Translation\Blade\BladeExtension $extension
+     */
+    private function addBladeDirectives(BladeExtension $extension)
+    {
+        foreach ($extension->getDirectives() as $name => $callable) {
+            $this->app['blade.compiler']->directive($name, $callable);
+        }
+    }
+
+    /**
+     * @param \Exolnet\Translation\Blade\BladeExtension $extension
+     */
+    private function addBladeConditionals(BladeExtension $extension)
+    {
+        foreach ($extension->getConditionals() as $name => $callable) {
+            $this->app['blade.compiler']->if($name, $callable);
+        }
     }
 }
