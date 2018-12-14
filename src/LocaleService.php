@@ -98,14 +98,6 @@ class LocaleService
     }
 
     /**
-     * @return string
-     */
-    public function getLocaleSuffix()
-    {
-        return $this->config->get('translation.locale_suffix', '.utf8');
-    }
-
-    /**
      * Returns current language.
      *
      * @return string
@@ -121,14 +113,45 @@ class LocaleService
     }
 
     /**
+     * Returns current language.
+     *
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleInformation()
+    {
+        return $this->getLocaleInformation($this->getCurrentLocale());
+    }
+
+    /**
+     * Returns current language.
+     *
+     * @param string|null $locale
+     * @return string|null
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleInformation(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        if (!$this->isLocaleAvailable($locale)) {
+            throw new TranslationException('Locale "' . $locale . '" is not in the available_locales array.');
+        }
+
+        return $this->getLocalesAvailable()[$locale];
+    }
+
+    /**
      * Returns current regional.
      *
      * @return string
      * @throws \Exolnet\Translation\TranslationException
      */
-    public function getCurrentLocaleRegional()
+    public function getCurrentLocaleSystem()
     {
-        return $this->getLocaleRegional($this->getCurrentLocale());
+        return $this->getLocaleSystem($this->getCurrentLocale());
     }
 
     /**
@@ -136,18 +159,13 @@ class LocaleService
      * @return string|null
      * @throws \Exolnet\Translation\TranslationException
      */
-    public function getLocaleRegional(string $locale = null)
+    public function getLocaleSystem(string $locale = null)
     {
         if (!$locale) {
             $locale = $this->getCurrentLocale();
         }
 
-        if (isset($this->getLocalesAvailable()[$locale]['regional'])) {
-            return $this->getLocalesAvailable()[$locale]['regional'];
-        } else {
-            //Support old versions
-            return $this->getCurrentLocale() . '_CA';
-        }
+        return $this->getLocaleInformation($locale)['system'] ?? null;
     }
 
     /**
@@ -170,8 +188,10 @@ class LocaleService
      */
     public function setSystemLocale(string $locale = null)
     {
-        $suffix = $this->getLocaleSuffix();
-        $regional = $this->getLocaleRegional($locale);
-        setlocale(LC_ALL, $regional . $suffix);
+        $systemConfig = (array) ($this->getLocaleSystem($locale) ?? []);
+
+        if (! empty($systemConfig)) {
+            setlocale(LC_ALL, ...$systemConfig);
+        }
     }
 }
