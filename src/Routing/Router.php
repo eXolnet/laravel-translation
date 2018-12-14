@@ -190,30 +190,6 @@ class Router extends LaravelRouter
     }
 
     /**
-     * @param string        $key
-     * @param string        $class
-     * @param \Closure|null $callback
-     */
-    public function bindSlugable($key, $class, Closure $callback = null)
-    {
-        $this->bindQuery($key, function ($value) use ($class) {
-            // For model binders, we will attempt to retrieve the models using the first
-            // method on the model instance. If we cannot retrieve the models we'll
-            // throw a not found exception otherwise we will return the instance.
-            $instance = $this->container->make($class);
-
-            /** @var \Exolnet\Translation\Routing\Slugable $model */
-            $model = $instance->where($instance->getRouteKeyName(), $value)->first();
-
-            if ($model && $model->getSlug() === $value) {
-                return $model;
-            }
-
-            return null;
-        }, $callback);
-    }
-
-    /**
      * @return \Exolnet\Translation\LocaleService
      */
     protected function getLocaleService()
