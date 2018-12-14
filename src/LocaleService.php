@@ -151,7 +151,7 @@ class LocaleService
      */
     public function getCurrentLocaleSystem()
     {
-        return $this->getLocaleSystem($this->getCurrentLocale());
+        return $this->getLocaleSystem();
     }
 
     /**
@@ -202,7 +202,7 @@ class LocaleService
      */
     public function getCurrentLocaleName()
     {
-        return $this->getLocaleName($this->getCurrentLocale());
+        return $this->getLocaleName();
     }
 
     /**
@@ -231,7 +231,7 @@ class LocaleService
      */
     public function getCurrentLocaleNativeName()
     {
-        return $this->getLocaleNativeName($this->getCurrentLocale());
+        return $this->getLocaleNativeName();
     }
 
     /**
@@ -260,7 +260,7 @@ class LocaleService
      */
     public function getCurrentLocaleScript()
     {
-        return $this->getLocaleScript($this->getCurrentLocale());
+        return $this->getLocaleScript();
     }
 
     /**
@@ -290,7 +290,7 @@ class LocaleService
      */
     public function getCurrentLocaleDirection()
     {
-        return $this->getLocaleDirection($this->getCurrentLocale());
+        return $this->getLocaleDirection();
     }
 
     /**
