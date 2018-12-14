@@ -1,4 +1,4 @@
-<?php namespace Exolnet\Http\Middleware;
+<?php namespace Exolnet\Translation\Http\Middleware;
 
 use Closure;
 use Exolnet\Translation\LocaleService;

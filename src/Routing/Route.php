@@ -134,8 +134,20 @@ class Route extends LaravelRoute
             return false;
         }
 
+        if ($this->getLocale() === $route->getLocale()) {
+            return false;
+        }
+
+        if ($this->getBaseUri() === '%LOCALE%' && $route->getBaseUri() === '/' && $route->uri() === '/') {
+            return true;
+        }
+
+        if ($route->getBaseUri() === '%LOCALE%' && $this->getBaseUri() === '/' && $this->uri() === '/') {
+            return true;
+        }
+
         // Validate base uri
-        if ($this->getBaseUri() !== $route->getBaseUri()) {
+        if (!$this->compareBaseUri($route)) {
             return false;
         }
 
@@ -144,5 +156,33 @@ class Route extends LaravelRoute
         }
 
         return true;
+    }
+
+    protected function compareBaseUri(Route $route)
+    {
+        if ($this->getBaseUri() === $route->getBaseUri()) {
+            return true;
+        }
+
+        $currentRouteContainNeedle = (strpos($this->getBaseUri(), '%LOCALE%') === false
+            && strpos($route->getBaseUri(), '%LOCALE%') !== false);
+
+        $comparedRouteContainNeedle = (strpos($this->getBaseUri(), '%LOCALE%') !== false
+            && strpos($route->getBaseUri(), '%LOCALE%') === false);
+
+        if (!($currentRouteContainNeedle || $comparedRouteContainNeedle)) {
+            return false;
+        }
+
+        if ($this->getBaseUri() === '/' && $this->uri() === '/' && $route->getBaseUri() === '%LOCALE%') {
+            return true;
+        }
+
+        if ($this->getBaseUri() === '/') {
+            return false;
+        }
+
+        return strpos($route->getBaseUri(), $this->getBaseUri()) !== false
+            || strpos($this->getBaseUri(), $route->getBaseUri()) !== false;
     }
 }

@@ -2,14 +2,12 @@
 
 use App;
 use Closure;
-use Exolnet\Http\Middleware\SetLocaleFromUrlSegment;
+use Exolnet\Translation\Http\Middleware\SetLocaleFromUrlSegment;
 use Exolnet\Translation\LocaleService;
-use Illuminate\Container\Container;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Routing\Router as LaravelRouter;
 use Mockery\Exception\RuntimeException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Redirect;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Router extends LaravelRouter
 {
@@ -98,8 +96,8 @@ class Router extends LaravelRouter
     /**
      * @param array|string $methods
      * @param string       $uri
-     * @param string       $action
-     * @return \Exolnet\Routing\Route|\Illuminate\Routing\Route
+     * @param mixed       $action
+     * @return \Exolnet\Translation\Routing\Route|\Illuminate\Routing\Route
      */
     protected function newRoute($methods, $uri, $action)
     {
@@ -126,8 +124,6 @@ class Router extends LaravelRouter
         return $route;
     }
 
-    //==========================================================================
-
     /**
      * @return array
      */
@@ -140,79 +136,6 @@ class Router extends LaravelRouter
         }
 
         return $route->alternates();
-    }
-
-    //==========================================================================
-
-    /**
-     * @param string       $route
-     * @param string|array $aliases
-     * @throws \Mockery\Exception\RuntimeException
-     */
-    public function alias($route, $aliases)
-    {
-        $route = $this->getRoutes()->getByName($route);
-
-        if ($route === null) {
-            throw new RuntimeException('No route named "' . $route . '" found for alias.');
-        }
-
-        foreach ((array)$aliases as $alias) {
-            $this->match($route->methods(), $alias, function () use ($route) {
-                return Redirect::route($route->getName());
-            });
-        }
-    }
-
-    /**
-     * @param               $key
-     * @param \Closure      $query
-     * @param \Closure|null $callback
-     */
-    public function bindQuery($key, Closure $query, Closure $callback = null)
-    {
-        $this->bind($key, function ($value) use ($query, $callback) {
-            if ($value === null) {
-                return;
-            }
-
-            if ($model = call_user_func($query, $value)) {
-                return $model;
-            }
-
-            // If a callback was supplied to the method we will call that to determine
-            // what we should do when the model is not found. This just gives these
-            // developer a little greater flexibility to decide what will happen.
-            if ($callback instanceof Closure) {
-                return call_user_func($callback, $value);
-            }
-
-            throw new NotFoundHttpException;
-        });
-    }
-
-    /**
-     * @param string        $key
-     * @param string        $class
-     * @param \Closure|null $callback
-     */
-    public function bindSlugable($key, $class, Closure $callback = null)
-    {
-        $this->bindQuery($key, function ($value) use ($class) {
-            // For model binders, we will attempt to retrieve the models using the first
-            // method on the model instance. If we cannot retrieve the models we'll
-            // throw a not found exception otherwise we will return the instance.
-            $instance = $this->container->make($class);
-
-            /** @var \Exolnet\Routing\Slugable $model */
-            $model = $instance->where($instance->getRouteKeyName(), $value)->first();
-
-            if ($model && $model->getSlug() === $value) {
-                return $model;
-            }
-
-            return null;
-        }, $callback);
     }
 
     /**
