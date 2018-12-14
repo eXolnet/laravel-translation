@@ -140,28 +140,6 @@ class Router extends LaravelRouter
         return $route->alternates();
     }
 
-    //==========================================================================
-
-    /**
-     * @param string       $route
-     * @param string|array $aliases
-     * @throws \Mockery\Exception\RuntimeException
-     */
-    public function alias($route, $aliases)
-    {
-        $route = $this->getRoutes()->getByName($route);
-
-        if ($route === null) {
-            throw new RuntimeException('No route named "' . $route . '" found for alias.');
-        }
-
-        foreach ((array)$aliases as $alias) {
-            $this->match($route->methods(), $alias, function () use ($route) {
-                return Redirect::route($route->getName());
-            });
-        }
-    }
-
     /**
      * @param               $key
      * @param \Closure      $query
