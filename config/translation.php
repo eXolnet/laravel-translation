@@ -14,10 +14,7 @@ return [
     */
 
     'available_locales' => [
-        'en' => ['regional' => 'en_CA'],
-        'fr' => ['regional' => 'fr_CA']
+        'en' => ['system' => ['en_CA.UTF-8']],
     ],
-
-    'locale_suffix' => env('LARAVELTRANSLATION_LOCALE_SUFFIX', '.UTF-8'),
 
 ];
