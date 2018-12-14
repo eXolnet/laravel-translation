@@ -124,8 +124,6 @@ class Router extends LaravelRouter
         return $route;
     }
 
-    //==========================================================================
-
     /**
      * @return array
      */
@@ -138,33 +136,6 @@ class Router extends LaravelRouter
         }
 
         return $route->alternates();
-    }
-
-    /**
-     * @param               $key
-     * @param \Closure      $query
-     * @param \Closure|null $callback
-     */
-    public function bindQuery($key, Closure $query, Closure $callback = null)
-    {
-        $this->bind($key, function ($value) use ($query, $callback) {
-            if ($value === null) {
-                return null;
-            }
-
-            if ($model = call_user_func($query, $value)) {
-                return $model;
-            }
-
-            // If a callback was supplied to the method we will call that to determine
-            // what we should do when the model is not found. This just gives these
-            // developer a little greater flexibility to decide what will happen.
-            if ($callback instanceof Closure) {
-                return call_user_func($callback, $value);
-            }
-
-            throw new NotFoundHttpException;
-        });
     }
 
     /**
