@@ -6,25 +6,21 @@ use Exolnet\Translation\Listeners\LocaleUpdatedListener;
 use Exolnet\Translation\Routing\Router;
 use Exolnet\Translation\Routing\UrlGenerator;
 use Illuminate\Contracts\Container\Container;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider;
+use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\ServiceProvider;
 
-class TranslationServiceProvider extends EventServiceProvider
+class TranslationServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array
-     */
-    protected $listen = [
-        \Illuminate\Foundation\Events\LocaleUpdated::class => [
-            LocaleUpdatedListener::class,
-        ],
-    ];
 
     /**
      * Bootstrap the application services.
      */
     public function boot()
     {
-        parent::boot();
+        $this->app[Dispatcher::class]->listen(
+            \Illuminate\Foundation\Events\LocaleUpdated::class,
+            LocaleUpdatedListener::class
+        );
 
         $this->publishes([
             $this->getConfigFile() => config_path('translation.php'),
