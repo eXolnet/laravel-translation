@@ -75,6 +75,6 @@ class LanguageBladeExtension implements BladeExtension
 
     public function isLtr()
     {
-        return LaravelTranslation::getCurrentLocaleDirection() === "rtl";
+        return LaravelTranslation::getCurrentLocaleDirection() === 'rtl';
     }
 }
