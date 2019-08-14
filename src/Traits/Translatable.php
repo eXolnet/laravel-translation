@@ -2,15 +2,15 @@
 
 use App;
 use Closure;
-use Dimsav\Translatable\Translatable as DimsavTranslatable;
+use Astrotomic\Translatable\Translatable as AstrotomicTranslatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use stdClass;
 
 trait Translatable
 {
-    use DimsavTranslatable {
-        DimsavTranslatable::save as translatableSave;
+    use AstrotomicTranslatable {
+        AstrotomicTranslatable::save as translatableSave;
     }
 
     /**
