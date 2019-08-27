@@ -115,7 +115,7 @@ class LocaleService
     /**
      * Returns current language.
      *
-     * @return string
+     * @return array
      * @throws \Exolnet\Translation\TranslationException
      */
     public function getCurrentLocaleInformation()
@@ -127,7 +127,7 @@ class LocaleService
      * Returns current language.
      *
      * @param string|null $locale
-     * @return string|null
+     * @return array|null
      * @throws \Exolnet\Translation\TranslationException
      */
     public function getLocaleInformation(string $locale = null)
