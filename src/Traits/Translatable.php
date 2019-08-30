@@ -9,9 +9,7 @@ use stdClass;
 
 trait Translatable
 {
-    use AstrotomicTranslatable {
-        AstrotomicTranslatable::save as translatableSave;
-    }
+    use AstrotomicTranslatable;
 
     /**
      * @param array         $rules
