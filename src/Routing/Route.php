@@ -31,10 +31,21 @@ class Route extends LaravelRoute
         $uri = static::translateUri($uri, $locale);
 
         if (array_key_exists('as', $action)) {
-            $action['as'] .= '.' . $locale;
+            $action['as'] = $this->translateName($action['as']);
         }
 
         parent::__construct($methods, $uri, $action);
+    }
+
+    /**
+     * @param string $name
+     * @return \Illuminate\Routing\Route
+     */
+    public function name($name)
+    {
+        $name = $this->translateName($name);
+
+        return parent::name($name);
     }
 
     /**
@@ -83,6 +94,15 @@ class Route extends LaravelRoute
         foreach ($parameters as $key => $value) {
             $this->setParameter($key, $value);
         }
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function translateName($name)
+    {
+        return $name .'.'. $this->locale;
     }
 
     /**

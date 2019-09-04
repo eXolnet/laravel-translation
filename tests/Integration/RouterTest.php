@@ -3,6 +3,7 @@
 namespace Exolnet\Translation\Tests\Integration;
 
 use Exolnet\Translation\Routing\Router;
+use Illuminate\Routing\Route;
 
 class RouterTest extends TestCase
 {
@@ -23,11 +24,24 @@ class RouterTest extends TestCase
         );
 
         $this->getRouter()->groupLocales(function () {
-            $this->getRouter()->get('example', 'ExampleController@index');
+            $this->getRouter()->get('example', 'ExampleController@index')->name('example');
         });
 
-        $routes = collect($this->getRouter()->getRoutes()->getRoutes())->pluck('uri')->all();
+        $routes = $this->getRouter()->getRoutes()->getRoutes();
 
-        $this->assertEquals(['en/example', 'fr/example', 'es/example'], $routes);
+        // Route URLs
+        $this->assertEquals(
+            ['en/example', 'fr/example', 'es/example'],
+            collect($routes)->pluck('uri')->all()
+        );
+
+        // Route names
+        $routeNames = collect($routes)
+            ->map(function (Route $route) {
+                return $route->getName();
+            })
+            ->all();
+
+        $this->assertEquals(['example.en', 'example.fr', 'example.es'], $routeNames);
     }
 }
