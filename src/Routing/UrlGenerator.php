@@ -1,9 +1,9 @@
 <?php namespace Exolnet\Translation\Routing;
 
-use App;
-use Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 
 class UrlGenerator extends LaravelUrlGenerator
 {

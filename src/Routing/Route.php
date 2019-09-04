@@ -1,8 +1,8 @@
 <?php namespace Exolnet\Translation\Routing;
 
 use Illuminate\Routing\Route as LaravelRoute;
-use Lang;
-use URL;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\URL;
 
 class Route extends LaravelRoute
 {

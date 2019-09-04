@@ -3,7 +3,7 @@
 namespace Exolnet\Translation\Listeners;
 
 use Exolnet\Translation\LocaleService;
-use \Illuminate\Foundation\Events\LocaleUpdated;
+use Illuminate\Foundation\Events\LocaleUpdated;
 
 class LocaleUpdatedListener
 {

@@ -1,10 +1,10 @@
 <?php namespace Exolnet\Translation\Traits;
 
-use App;
 use Closure;
 use Astrotomic\Translatable\Translatable as AstrotomicTranslatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use stdClass;
 
 trait Translatable

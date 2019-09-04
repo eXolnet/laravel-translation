@@ -1,13 +1,10 @@
 <?php namespace Exolnet\Translation\Routing;
 
-use App;
 use Closure;
 use Exolnet\Translation\Http\Middleware\SetLocaleFromUrlSegment;
 use Exolnet\Translation\LocaleService;
 use Illuminate\Routing\Router as LaravelRouter;
-use Mockery\Exception\RuntimeException;
-use Redirect;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\App;
 
 class Router extends LaravelRouter
 {

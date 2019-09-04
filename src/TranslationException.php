@@ -2,6 +2,9 @@
 
 namespace Exolnet\Translation;
 
-class TranslationException extends \Exception
+use Exception;
+
+class TranslationException extends Exception
 {
+    //
 }
