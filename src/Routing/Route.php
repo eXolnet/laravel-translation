@@ -52,6 +52,7 @@ class Route extends LaravelRoute
     public function setLocale($locale)
     {
         $this->locale = $locale;
+
         return $this;
     }
 

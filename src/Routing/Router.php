@@ -142,7 +142,7 @@ class Router extends LaravelRouter
 
         return $route->alternates();
     }
-    
+
     /**
      * @return \Exolnet\Translation\LocaleService
      */
