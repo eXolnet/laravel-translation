@@ -9,7 +9,7 @@ class SetLocaleFromUrlSegment
     /**
      * @var \Exolnet\Translation\LocaleService
      */
-    private $localeService;
+    protected $localeService;
 
     /**
      * LocaleSetter constructor.
