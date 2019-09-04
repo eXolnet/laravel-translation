@@ -130,7 +130,7 @@ class UrlGenerator extends LaravelUrlGenerator
         $currentParameters = $currentRoute->parameters();
         $alternates        = [];
 
-        /** @var \Exolnet\Routing\Route $route */
+        /** @var \Exolnet\Translation\Routing\Route $route */
         foreach ($routeAlternates as $route) {
             $locale = $route->getLocale();
 
