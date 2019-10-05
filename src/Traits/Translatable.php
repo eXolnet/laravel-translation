@@ -113,28 +113,6 @@ trait Translatable
     }
 
     /**
-     * @param string|null $locale
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function translation($locale = null)
-    {
-        if (! $locale) {
-            $locale = App::getLocale();
-        }
-
-        return $this->hasOne($this->getTranslationModelName(), $this->getRelationKey())
-            ->where($this->getLocaleKey(), '=', $locale);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function translations()
-    {
-        return $this->hasMany($this->getTranslationModelName(), $this->getRelationKey());
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getTranslations()
