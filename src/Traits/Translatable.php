@@ -9,31 +9,7 @@ use stdClass;
 
 trait Translatable
 {
-    use AstrotomicTranslatable {
-        AstrotomicTranslatable::saveTranslations as translatableSave;
-    }
-
-    /**
-     * @param array         $rules
-     * @param array         $customMessages
-     * @param array         $options
-     * @param \Closure|null $beforeSave
-     * @param \Closure|null $afterSave
-     * @return bool
-     */
-    public function save(
-        array $rules = [],
-        array $customMessages = [],
-        array $options = [],
-        Closure $beforeSave = null,
-        Closure $afterSave = null
-    ) {
-        if (count($this->translatedAttributes) > 0 && ! $this->translatableSave($options)) {
-            return false;
-        }
-
-        return parent::save($rules, $customMessages, $options, $beforeSave, $afterSave);
-    }
+    use AstrotomicTranslatable;
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
