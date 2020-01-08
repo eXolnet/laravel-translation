@@ -191,7 +191,10 @@ class LocaleService
         $systemConfig = (array) ($this->getLocaleSystem($locale) ?? []);
 
         if (! empty($systemConfig)) {
-            setlocale(LC_ALL, ...$systemConfig);
+            setlocale(LC_COLLATE, ...$systemConfig);
+            setlocale(LC_CTYPE, ...$systemConfig);
+            setlocale(LC_MONETARY, ...$systemConfig);
+            setlocale(LC_TIME, ...$systemConfig);
         }
     }
 }
