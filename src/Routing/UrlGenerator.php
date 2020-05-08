@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;
+use Illuminate\Routing\ViewController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Config;
 
@@ -129,6 +130,10 @@ class UrlGenerator extends LaravelUrlGenerator
 
         $currentParameters = $currentRoute->parameters();
         $alternates        = [];
+
+        if ($currentRoute->getController() instanceof ViewController && ! $addParameters) {
+            unset($currentParameters['view']);
+        }
 
         /** @var \Exolnet\Translation\Routing\Route $route */
         foreach ($routeAlternates as $route) {
