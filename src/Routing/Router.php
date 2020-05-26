@@ -104,7 +104,7 @@ class Router extends LaravelRouter
      * @param mixed $action
      * @return \Exolnet\Translation\Routing\Route|\Illuminate\Routing\Route
      */
-    protected function newRoute($methods, $uri, $action)
+    public function newRoute($methods, $uri, $action)
     {
         if (count($this->localeStack) === 0) {
             return parent::newRoute($methods, $uri, $action);
