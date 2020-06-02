@@ -16,6 +16,10 @@
         {
             "name": "Patrick Gagnon-Renaud",
             "email": "pgrenaud@exolnet.com"
+        },
+        {
+            "name": "Simon Gaudreau",
+            "email": "sgaudreau@exolnet.com"
         }
     ],
     "require": {
