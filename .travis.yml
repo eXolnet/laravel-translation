@@ -10,8 +10,6 @@ env:
     - COMPOSER_FLAGS="--prefer-lowest"
     - COMPOSER_FLAGS=""
 
-sudo: false
-
 cache:
   directories:
     - $HOME/.composer/cache
