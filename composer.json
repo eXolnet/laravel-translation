@@ -11,8 +11,11 @@
     "authors": [
         {
             "name": "Alexandre D’Eschambeault",
-            "homepage": "https://www.exolnet.com",
-            "role": "Developer"
+            "email": "adeschambeault@exolnet.com"
+        },
+        {
+            "name": "Patrick Gagnon-Renaud",
+            "email": "pgrenaud@exolnet.com"
         }
     ],
     "require": {
