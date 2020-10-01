@@ -5,3 +5,12 @@ composer.lock
 .idea/
 phpunit.xml
 Thumbs.db
+
+# Platform
+/.idea
+/.vagrant
+.bom.json
+.phpstorm.meta.php
+_ide_helper.php
+.php_cs.cache
+.phpunit.result.cache
