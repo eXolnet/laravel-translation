@@ -72,7 +72,7 @@ If you when to remove the locale prefix on the base locale you need to set the `
 
 Route::groupLocales(function () {
     Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
-}, null, true);
+})->hiddenBaseLocale();
 
 ```
 
