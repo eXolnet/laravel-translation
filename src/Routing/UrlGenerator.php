@@ -62,7 +62,6 @@ class UrlGenerator extends LaravelUrlGenerator
 
     /**
      * @param array $alternateParametersByLocale
-     * @param bool $absolute
      * @return array
      */
     public function alternateFullUrls(array $alternateParametersByLocale = []): array
