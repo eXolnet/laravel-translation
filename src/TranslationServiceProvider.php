@@ -2,6 +2,8 @@
 
 namespace Exolnet\Translation;
 
+use Exolnet\Translation\Blade\BladeExtension;
+use Exolnet\Translation\Blade\LanguageBladeExtension;
 use Exolnet\Translation\Listeners\LocaleUpdatedListener;
 use Exolnet\Translation\Routing\Router;
 use Exolnet\Translation\Routing\UrlGenerator;
@@ -25,6 +27,13 @@ class TranslationServiceProvider extends ServiceProvider
         $this->publishes([
             $this->getConfigFile() => config_path('translation.php'),
         ], 'config');
+
+        $this->bootBladeExtensions();
+
+        $this->loadViewsFrom(
+            $this->getViewsPath(),
+            'laravel-translation'
+        );
     }
 
     /**
@@ -35,6 +44,7 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerRouter();
         $this->registerUrlGenerator();
         $this->registerLocaleService();
+        $this->registerBladeExtensions();
 
         $this->mergeConfigFrom($this->getConfigFile(), 'translation');
     }
@@ -127,5 +137,50 @@ class TranslationServiceProvider extends ServiceProvider
             DIRECTORY_SEPARATOR . '..' .
             DIRECTORY_SEPARATOR . 'config' .
             DIRECTORY_SEPARATOR . 'translation.php';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getViewsPath(): string
+    {
+        return __DIR__ .
+            DIRECTORY_SEPARATOR . '..' .
+            DIRECTORY_SEPARATOR . 'resources' .
+            DIRECTORY_SEPARATOR . 'views';
+    }
+
+    private function bootBladeExtensions()
+    {
+        foreach ($this->app->tagged('blade.extension') as $extension) {
+            $this->addBladeDirectives($extension);
+            $this->addBladeConditionals($extension);
+        }
+    }
+
+    private function registerBladeExtensions()
+    {
+        $this->app->singleton(LanguageBladeExtension::class);
+        $this->app->tag(LanguageBladeExtension::class, ['blade.extension']);
+    }
+
+    /**
+     * @param \Exolnet\Translation\Blade\BladeExtension $extension
+     */
+    private function addBladeDirectives(BladeExtension $extension)
+    {
+        foreach ($extension->getDirectives() as $name => $callable) {
+            $this->app['blade.compiler']->directive($name, $callable);
+        }
+    }
+
+    /**
+     * @param \Exolnet\Translation\Blade\BladeExtension $extension
+     */
+    private function addBladeConditionals(BladeExtension $extension)
+    {
+        foreach ($extension->getConditionals() as $name => $callable) {
+            $this->app['blade.compiler']->if($name, $callable);
+        }
     }
 }

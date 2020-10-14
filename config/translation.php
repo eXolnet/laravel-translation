@@ -14,7 +14,7 @@ return [
     */
 
     'available_locales' => [
-        'en' => ['system' => ['en_CA.UTF-8']],
+        'en' => ['name' => 'English', 'native' => 'English', 'script' => 'Latn', 'system' => ['en_CA.UTF-8']],
     ],
 
 ];

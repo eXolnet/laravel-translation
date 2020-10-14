@@ -151,7 +151,7 @@ class LocaleService
      */
     public function getCurrentLocaleSystem()
     {
-        return $this->getLocaleSystem($this->getCurrentLocale());
+        return $this->getLocaleSystem();
     }
 
     /**
@@ -195,6 +195,130 @@ class LocaleService
             setlocale(LC_CTYPE, ...$systemConfig);
             setlocale(LC_MONETARY, ...$systemConfig);
             setlocale(LC_TIME, ...$systemConfig);
+        }
+    }
+
+    /**
+     * Return the current locale name
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleName()
+    {
+        return $this->getLocaleName();
+    }
+
+    /**
+     * Return the locale name for a specified locale
+     * @param string|null $locale
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleName(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        if (!isset($this->getLocalesAvailable()[$locale])) {
+            return '';
+        }
+
+        return array_get($this->getLocalesAvailable()[$locale], 'name', '');
+    }
+
+    /**
+     * Return the current locale native name
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleNativeName()
+    {
+        return $this->getLocaleNativeName();
+    }
+
+    /**
+     * Return the locale native name for a specified locale
+     * @param string|null $locale
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleNativeName(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        if (!isset($this->getLocalesAvailable()[$locale])) {
+            return $this->getLocaleName($locale);
+        }
+
+        return array_get($this->getLocalesAvailable()[$locale], 'native', $this->getLocaleName($locale));
+    }
+
+    /**
+     * Return the current locale native name
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleScript()
+    {
+        return $this->getLocaleScript();
+    }
+
+    /**
+     * Return the locale native name for a specified locale
+     * @param string|null $locale
+     * @return string
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleScript(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        if (!isset($this->getLocalesAvailable()[$locale])) {
+            return '';
+        }
+
+        return array_get($this->getLocalesAvailable()[$locale], 'script', '');
+    }
+
+    /**
+     * Returns current locale direction.
+     *
+     * @return string current locale direction
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getCurrentLocaleDirection()
+    {
+        return $this->getLocaleDirection();
+    }
+
+    /**
+     * Returns locale direction.
+     *
+     * @param string|null $locale
+     * @return string current locale direction
+     * @throws \Exolnet\Translation\TranslationException
+     */
+    public function getLocaleDirection(string $locale = null)
+    {
+        if (!$locale) {
+            $locale = $this->getCurrentLocale();
+        }
+
+        switch ($this->getLocaleScript($locale)) {
+            // Other (historic) RTL scripts exist, but this list contains the only ones in current use.
+            case 'Arab':
+            case 'Hebr':
+            case 'Mong':
+            case 'Tfng':
+            case 'Thaa':
+                return 'rtl';
+            default:
+                return 'ltr';
         }
     }
 }
