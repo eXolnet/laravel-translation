@@ -1,5 +1,6 @@
 <?php namespace Exolnet\Translation\Routing;
 
+use Illuminate\Contracts\Routing\UrlRoutable;
 use Illuminate\Routing\Route;
 use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;
 use Illuminate\Support\Arr;
@@ -38,7 +39,7 @@ class UrlGenerator extends LaravelUrlGenerator
         }
 
         $alternatesRoutes = $currentRoute->getLocaleAlternates();
-        $currentParameters = Arr::except($currentRoute->parameters(), ['locale', 'localeBaseUri', 'view']);
+        $currentParameters = Arr::except($currentRoute->parameters(), ['view']);
 
         return array_map(
             function (Route $route) use ($currentParameters, $alternateParametersByLocale) {
@@ -46,12 +47,16 @@ class UrlGenerator extends LaravelUrlGenerator
                 $parameters = $currentParameters;
                 $alternateParameters = $alternateParametersByLocale[$locale] ?? [];
 
-                foreach ($alternateParameters as $key => $value) {
-                    if (! array_key_exists($key, $parameters)) {
-                        continue;
+                foreach ($parameters as $key => $parameter) {
+                    if (array_key_exists($key, $alternateParameters)) {
+                        $parameter = $alternateParameters[$key];
                     }
 
-                    $parameters[$key] = $alternateParameters[$key];
+                    if (method_exists($parameter, 'getRouteKeyLocalized')) {
+                        $parameter = $parameter->getRouteKeyLocalized($locale);
+                    }
+
+                    $parameters[$key] = $parameter;
                 }
 
                 return $this->toRoute($route, $parameters, true);
