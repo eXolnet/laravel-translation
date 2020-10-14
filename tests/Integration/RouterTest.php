@@ -22,6 +22,24 @@ class RouterTest extends TestCase
      * @return void
      * @test
      */
+    public function testGetLocales(): void
+    {
+        $this->assertEquals(['en', 'fr', 'es'], $this->getRouter()->getLocales());
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testGetAlternateLocales(): void
+    {
+        $this->assertEquals(['fr', 'es'], $this->getRouter()->getAlternateLocales());
+    }
+
+    /**
+     * @return void
+     * @test
+     */
     public function testRegisterTranslatedRoute(): void
     {
         $this->getRouter()->groupLocales(function () {

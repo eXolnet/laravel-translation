@@ -2,6 +2,7 @@
 
 use Exolnet\Translation\LocaleService;
 use Illuminate\Routing\Router as LaravelRouter;
+use Illuminate\Support\Facades\App;
 
 class Router extends LaravelRouter
 {
@@ -16,6 +17,14 @@ class Router extends LaravelRouter
     public function getLocales(): array
     {
         return $this->getLocaleService()->getLocales();
+    }
+
+    /**
+     * @return array
+     */
+    public function getAlternateLocales(): array
+    {
+        return array_values(array_diff($this->getLocales(), [App::getLocale()]));
     }
 
     /**
