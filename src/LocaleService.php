@@ -1,7 +1,7 @@
 <?php namespace Exolnet\Translation;
 
 use Illuminate\Contracts\Config\Repository as Config;
-use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class LocaleService
 {
@@ -44,14 +44,22 @@ class LocaleService
 
     /**
      * @param string $locale
-     * @return array
+     * @param string|null $key
+     * @param null $default
+     * @return mixed
      */
-    public function getLocaleConfig(string $locale): array
+    public function getLocaleConfig(string $locale, ?string $key = null, $default = null)
     {
-        return array_merge(
+        $config = array_merge(
             $this->buildLocaleInformationDefault($locale),
             $this->getLocalesConfig()[$locale] ?? []
         );
+
+        if (! $key) {
+            return $config;
+        }
+
+        return Arr::get($config, $key, $default);
     }
 
     /**
@@ -59,7 +67,7 @@ class LocaleService
      */
     public function setSystemLocale(string $locale): void
     {
-        if (! $systemConfig = $this->getLocaleConfig($locale)['system']) {
+        if (! $systemConfig = $this->getLocaleConfig($locale, 'system')) {
             return;
         }
 
