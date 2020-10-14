@@ -76,7 +76,6 @@ Route::groupLocales(function () {
 
 ```
 
-
 ## Testing
 
 To run the phpUnit tests, please use:
@@ -96,6 +95,8 @@ If you discover any security related issues, please email security@exolnet.com i
 ## Credits
 
 - [Alexandre D'Eschambeault](https://github.com/xel1045)
+- [Simon Gaudreau](https://github.com/Gandhi11)
+- [Patrick Gagnon-Renaud](https://github.com/pgrenaud)
 - [Tom Rochette](https://github.com/tomzx)
 - [All Contributors](../../contributors)
 
