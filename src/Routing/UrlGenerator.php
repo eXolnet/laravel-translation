@@ -1,194 +1,79 @@
 <?php namespace Exolnet\Translation\Routing;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\Route;
 use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;
-use Illuminate\Routing\ViewController;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Config;
 
 class UrlGenerator extends LaravelUrlGenerator
 {
     /**
-     * @param string $name
-     * @param mixed $parameters
-     * @param bool $absolute
-     * @param string|null $locale
-     * @return string
+     * {@inheritDoc}
      */
     public function route($name, $parameters = [], $absolute = true, $locale = null)
     {
-        $name = $this->getBestRouteName($name, $locale);
+        $nameLocalized = $name . '.' . ($parameters['locale'] ?? App::getLocale());
+
+        if (is_array($parameters) && array_key_exists('locale', $parameters)) {
+            unset($parameters['locale']);
+        }
+
+        if (! is_null($route = $this->routes->getByName($nameLocalized))) {
+            return $this->toRoute($route, $parameters, $absolute);
+        }
 
         return parent::route($name, $parameters, $absolute);
     }
 
     /**
-     * @param array $parameters
-     * @param bool $append
-     * @return string
-     */
-    public function relative(array $parameters = [], $append = true)
-    {
-        $uri = $this->current();
-
-        if ($append && $this->request->getQueryString()) {
-            $parameters = array_merge($this->request->query(), $parameters);
-        }
-
-        $parameters = array_filter($parameters);
-
-        if (count($parameters) > 0) {
-            $uri .= '?'. http_build_query($parameters);
-        }
-
-        return $uri;
-    }
-
-    /**
-     * @return string
-     */
-    public function canonical()
-    {
-        return $this->full();
-    }
-
-    // Is it possible to do something for this kind of method?
-    // public function to($path, $extra = array(), $secure = null)
-    // {
-    //
-    // }
-
-    // Is it possible to do something for this kind of method?
-    // public function action($action, $parameters = array(), $absolute = true)
-    // {
-    //
-    // }
-
-    /**
-     * @param string $path
-     * @param bool|null $secure
-     * @return string
-     */
-    public function cdn($path, $secure = null)
-    {
-        $root = $this->getCdnUrl($secure);
-
-        return $this->removeIndex($root) . '/' . trim($path, '/');
-    }
-
-    /**
-     * @param bool|null $secure
-     * @return string
-     */
-    public function getCdnUrl($secure = null)
-    {
-        $cdn_url = Config::get('app.cdn_url');
-
-        return $this->getRootUrl($this->getScheme($secure), $cdn_url);
-    }
-
-    /**
-     * @param \Exolnet\Routing\Route $route
+     * @param array $alternateParametersByLocale
      * @return array
      */
-    public function alternateRoutes(Route $route)
-    {
-        $alternates = [];
-
-        foreach ($this->routes as $alternate) {
-            if (! $alternate instanceof Route) {
-                continue;
-            }
-
-            if ($route->isAlternate($alternate)) {
-                $alternates[] = $alternate;
-            }
-        }
-
-        return $alternates;
-    }
-
-    /**
-     * @param array $alternateParameters
-     * @param bool  $absolute
-     * @param bool  $addParameters
-     * @return array
-     */
-    public function alternates(array $alternateParameters = array(), $absolute = true, $addParameters = false)
+    public function alternateUrls(array $alternateParametersByLocale = []): array
     {
         $currentRoute = $this->request->route();
 
-        if (! $currentRoute || ! $currentRoute instanceof Route) {
+        if (! $currentRoute) {
             return [];
         }
 
-        $routeAlternates = $currentRoute->alternates();
+        $alternatesRoutes = $currentRoute->getLocaleAlternates();
+        $currentParameters = Arr::except($currentRoute->parameters(), ['locale', 'localeBaseUri', 'view']);
 
-        if (count($routeAlternates) === 0) {
-            return [];
-        }
+        return array_map(
+            function (Route $route) use ($currentParameters, $alternateParametersByLocale) {
+                $locale = $route->getLocale();
+                $parameters = $currentParameters;
+                $alternateParameters = $alternateParametersByLocale[$locale] ?? [];
 
-        $currentParameters = $currentRoute->parameters();
-        $alternates        = [];
+                foreach ($alternateParameters as $key => $value) {
+                    if (! array_key_exists($key, $parameters)) {
+                        continue;
+                    }
 
-        if ($currentRoute->getController() instanceof ViewController && ! $addParameters) {
-            unset($currentParameters['view']);
-        }
+                    $parameters[$key] = $alternateParameters[$key];
+                }
 
-        /** @var \Exolnet\Translation\Routing\Route $route */
-        foreach ($routeAlternates as $route) {
-            $locale = $route->getLocale();
-
-            $parameters = array_key_exists($locale, $alternateParameters)
-                ? $alternateParameters[$locale] + $currentParameters
-                : $currentParameters;
-
-            if (! $addParameters) {
-                $parameters = array_intersect_key($parameters, $currentParameters);
-            }
-
-            $alternates[$locale] = $this->toRoute($route, $parameters, $absolute);
-        }
-
-        return $alternates;
+                return $this->toRoute($route, $parameters, true);
+            },
+            $alternatesRoutes
+        );
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model $translatableModel
-     * @param callable                            $callback
-     * @return mixed
+     * @param array $alternateParametersByLocale
+     * @param bool $absolute
+     * @return array
      */
-    public function buildAlternateParameters(Model $translatableModel, callable $callback)
+    public function alternateFullUrls(array $alternateParametersByLocale = []): array
     {
-        return $translatableModel->buildAlternateParameters($callback);
-    }
+        $query = $this->request->getQueryString();
 
-    /**
-     * @param string $name
-     * @param string|null $locale
-     * @return string
-     */
-    protected function getBestRouteName($name, $locale = null)
-    {
-        if ($this->routes->getByName($name) !== null) {
-            return $name;
-        }
-
-        // Check for a route with the current locale
-        if ($locale === null) {
-            $locale = App::getLocale();
-        }
-
-        if ($locale === null) {
-            return $name;
-        }
-
-        $localeName = $name . '.' . $locale;
-
-        if ($this->routes->getByName($localeName) !== null) {
-            return $localeName;
-        }
-
-        return $name;
+        return array_map(
+            function ($url) use ($query) {
+                return $query ? $url . '?' . $query : $url;
+            },
+            $this->alternateUrls($alternateParametersByLocale)
+        );
     }
 }

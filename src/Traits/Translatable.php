@@ -1,7 +1,7 @@
 <?php namespace Exolnet\Translation\Traits;
 
-use Closure;
 use Astrotomic\Translatable\Translatable as AstrotomicTranslatable;
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;

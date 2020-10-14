@@ -32,6 +32,6 @@ class LocaleUpdatedListener
      */
     public function handle(LocaleUpdated $event)
     {
-        $this->localeService->setCurrentLocale($event->locale);
+        $this->localeService->setSystemLocale($event->locale);
     }
 }

@@ -3,10 +3,9 @@
 namespace Exolnet\Translation\Http\Middleware;
 
 use Closure;
-use Exolnet\Translation\LocaleService;
 use Illuminate\Foundation\Application;
 
-class SetLocaleFromUrlSegment
+class SetLocaleFromRouteLocalized
 {
     /**
      * @var \Illuminate\Foundation\Application
@@ -20,12 +19,10 @@ class SetLocaleFromUrlSegment
 
     /**
      * @param \Illuminate\Foundation\Application $app
-     * @param \Exolnet\Translation\LocaleService $localeService
      */
-    public function __construct(Application $app, LocaleService $localeService)
+    public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->localeService = $localeService;
     }
 
     /**
@@ -34,15 +31,11 @@ class SetLocaleFromUrlSegment
      * @param int $segment
      * @return mixed
      */
-    public function handle($request, Closure $next, int $segment = 1)
+    public function handle($request, Closure $next)
     {
-        $locale = $request->segment($segment);
-
-        if (! in_array($locale, $this->localeService->getLocales())) {
-            $locale = $this->localeService->getLocaleBase();
+        if ($locale = $request->route()->getLocale()) {
+            $this->app->setLocale($locale);
         }
-
-        $this->app->setLocale($locale);
 
         return $next($request);
     }
