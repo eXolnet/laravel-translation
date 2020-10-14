@@ -33,7 +33,7 @@ class Router extends LaravelRouter
     {
         $group = end($this->groupStack);
 
-        return $group['locale'] ?? null;
+        return $group['groupLocale'] ?? null;
     }
 
     /**

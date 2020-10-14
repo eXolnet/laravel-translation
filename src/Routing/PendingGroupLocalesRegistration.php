@@ -83,7 +83,7 @@ class PendingGroupLocalesRegistration
 
         foreach ($locales as $locale) {
             $attributes = [
-                'locale' => $locale,
+                'groupLocale' => $locale,
                 'prefix' => $locale,
                 'middleware' => SetLocaleFromRouteLocalized::class,
             ];

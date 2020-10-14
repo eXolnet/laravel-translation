@@ -3,6 +3,7 @@
 namespace Exolnet\Translation\Tests\Integration;
 
 use Exolnet\Translation\Routing\Router;
+use Exolnet\Translation\Tests\Mocks\ExampleController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 
@@ -185,5 +186,37 @@ class RouterTest extends TestCase
         $this->get('en/example')->assertSee('en');
         $this->get('fr/example')->assertSee('fr');
         $this->get('es/example')->assertSee('es');
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testRouteParametersAreBound(): void
+    {
+        $this->getRouter()->groupLocales(function () {
+            $this->getRouter()->get('example/{id}', function ($id) {
+                $this->assertEquals('foo', $id);
+            });
+        });
+
+        $this->get('en/example/foo');
+        $this->get('fr/example/foo');
+        $this->get('es/example/foo');
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testResourcesParametersAreBound(): void
+    {
+        $this->getRouter()->groupLocales(function () {
+            $this->getRouter()->resource('example', ExampleController::class)->only('show');
+        });
+
+        $this->get('en/example/foo')->assertSee('show#foo');
+        $this->get('fr/example/foo')->assertSee('show#foo');
+        $this->get('es/example/foo')->assertSee('show#foo');
     }
 }

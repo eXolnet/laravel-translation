@@ -19,7 +19,7 @@ class RouteMixin
          * @return ?string
          */
         return function (): ?string {
-            return $this->defaults['locale'] ?? null;
+            return $this->action['locale'] ?? null;
         };
     }
 
@@ -58,7 +58,7 @@ class RouteMixin
          * @return ?string
          */
         return function (): ?string {
-            return $this->defaults['localeBaseUri'] ?? null;
+            return $this->action['localeBaseUri'] ?? null;
         };
     }
 

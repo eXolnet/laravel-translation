@@ -13,16 +13,16 @@ class RouteLocalized extends LaravelRoute
      */
     public function __construct($methods, $uri, $action, $locale)
     {
-        $this->defaults['locale'] = $locale;
-        $this->defaults['localeBaseUri'] = $this->buildLocaleBaseUri($uri);
-
-        $uri = static::translateUri($uri);
-
-        if (is_array($action) && array_key_exists('as', $action)) {
-            $action['as'] = $this->translateName($action['as']);
-        }
-
         parent::__construct($methods, $uri, $action);
+
+        $this->action['locale'] = $locale;
+        $this->action['localeBaseUri'] = $this->buildLocaleBaseUri($uri);
+
+        $this->uri = $this->translateUri($uri);
+
+        if (isset($this->action['as'])) {
+            $this->action['as'] = $this->translateName($this->action['as']);
+        }
     }
 
     /**
