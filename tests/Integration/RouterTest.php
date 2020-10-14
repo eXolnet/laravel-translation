@@ -48,7 +48,13 @@ class RouterTest extends TestCase
             $this->getRouter()->get('example', 'ExampleController@index')->name('example');
         });
 
-        $compiled = $this->getRouter()->getRoutes()->compile();
+        $routes = $this->getRouter()->getRoutes();
+
+        if (! method_exists($routes, 'compile')) {
+            $this->markTestSkipped('Route compilation is not available for this version of Laravel.');
+        }
+
+        $compiled = $routes->compile();
         $this->getRouter()->setCompiledRoutes($compiled);
 
         $this->assertEquals(
