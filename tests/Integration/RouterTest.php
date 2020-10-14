@@ -42,6 +42,41 @@ class RouterTest extends TestCase
      * @return void
      * @test
      */
+    public function testRegisterTranslatedResources(): void
+    {
+        $this->getRouter()->groupLocales(function () {
+            $this->getRouter()->resource('examples', 'ExampleController')->only('index', 'show');
+        });
+
+        $this->assertEquals(
+            [
+                'en/examples',
+                'en/examples/{example}',
+                'fr/examples',
+                'fr/examples/{example}',
+                'es/examples',
+                'es/examples/{example}',
+            ],
+            $this->getRegisteredRouteUris()
+        );
+
+        $this->assertEquals(
+            [
+                'examples.index.en',
+                'examples.show.en',
+                'examples.index.fr',
+                'examples.show.fr',
+                'examples.index.es',
+                'examples.show.es',
+            ],
+            $this->getRegisteredRouteNames()
+        );
+    }
+
+    /**
+     * @return void
+     * @test
+     */
     public function testRoutesCache(): void
     {
         $this->getRouter()->groupLocales(function () {
