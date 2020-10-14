@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/eXolnet/laravel-translation/v/stable?format=flat-square)](https://packagist.org/packages/eXolnet/laravel-translation)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/eXolnet/laravel-translation/master.svg?style=flat-square)](https://travis-ci.org/eXolnet/laravel-translation)
+[![Build Status](https://img.shields.io/github/workflow/status/eXolnet/laravel-translation/Tests?label=tests&style=flat-square)](https://github.com/eXolnet/laravel-translation/actions?query=workflow%3Atests)
 [![StyleCI](https://github.styleci.io/repos/140004067/shield?branch=master)](https://github.styleci.io/repos/140004067)
 [![Total Downloads](https://img.shields.io/packagist/dt/eXolnet/laravel-translation.svg?style=flat-square)](https://packagist.org/packages/eXolnet/laravel-translation)
 
@@ -101,5 +101,5 @@ If you discover any security related issues, please email security@exolnet.com i
 
 ## License
 
-This code is licensed under the [MIT license](http://choosealicense.com/licenses/mit/). 
+This code is licensed under the [MIT license](http://choosealicense.com/licenses/mit/).
 Please see the [license file](LICENSE) for more information.
