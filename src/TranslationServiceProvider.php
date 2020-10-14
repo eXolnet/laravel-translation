@@ -3,10 +3,13 @@
 namespace Exolnet\Translation;
 
 use Exolnet\Translation\Listeners\LocaleUpdatedListener;
+use Exolnet\Translation\Mixins\RouteMixin;
 use Exolnet\Translation\Routing\Router;
 use Exolnet\Translation\Routing\UrlGenerator;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Foundation\Events\LocaleUpdated;
+use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
 
 class TranslationServiceProvider extends ServiceProvider
@@ -17,10 +20,7 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app[Dispatcher::class]->listen(
-            \Illuminate\Foundation\Events\LocaleUpdated::class,
-            LocaleUpdatedListener::class
-        );
+        $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
 
         $this->publishes([
             $this->getConfigFile() => config_path('translation.php'),
@@ -35,6 +35,7 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerRouter();
         $this->registerUrlGenerator();
         $this->registerLocaleService();
+        $this->registerMixins();
 
         $this->mergeConfigFrom($this->getConfigFile(), 'translation');
     }
@@ -49,6 +50,11 @@ class TranslationServiceProvider extends ServiceProvider
         $this->app->singleton('router', function ($app) {
             return new Router($app['events'], $app);
         });
+    }
+
+    protected function registerMixins(): void
+    {
+        Route::mixin(new RouteMixin());
     }
 
     /**
