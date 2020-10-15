@@ -22,11 +22,31 @@ class TranslationServiceProvider extends ServiceProvider
     {
         $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
 
-        $this->publishes([
-            $this->getConfigFile() => config_path('translation.php'),
-        ], 'config');
+        $this->loadTranslationsFrom($this->getProjectPath('config/lang'), 'translation');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'translation');
+        $this->loadViewsFrom($this->getProjectPath('resources/view'), 'translation');
+
+        if ($this->app->runningInConsole()) {
+            $this->offerPublishing();
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function offerPublishing(): void
+    {
+        $this->publishes([
+            $this->getProjectPath('config/translation.php') => config_path('translation.php'),
+        ], 'translation-config');
+
+        $this->publishes([
+            $this->getProjectPath('resources/lang') => resource_path('lang/vendor/backup'),
+        ], 'translation-lang');
+
+        $this->publishes([
+            $this->getProjectPath('resources/views') => resource_path('views/vendor/translation'),
+        ], 'translation-views');
     }
 
     /**
@@ -39,7 +59,7 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerLocaleService();
         $this->registerMixins();
 
-        $this->mergeConfigFrom($this->getConfigFile(), 'translation');
+        $this->mergeConfigFrom($this->getProjectPath('config/translation.php'), 'translation');
     }
 
     /**
@@ -127,13 +147,11 @@ class TranslationServiceProvider extends ServiceProvider
     }
 
     /**
+     * @param string $path
      * @return string
      */
-    protected function getConfigFile(): string
+    protected function getProjectPath(string $path): string
     {
-        return __DIR__ .
-            DIRECTORY_SEPARATOR . '..' .
-            DIRECTORY_SEPARATOR . 'config' .
-            DIRECTORY_SEPARATOR . 'translation.php';
+        return __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '../' . $path);
     }
 }
