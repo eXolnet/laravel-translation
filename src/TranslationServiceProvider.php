@@ -25,6 +25,8 @@ class TranslationServiceProvider extends ServiceProvider
         $this->publishes([
             $this->getConfigFile() => config_path('translation.php'),
         ], 'config');
+
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'translation');
     }
 
     /**
