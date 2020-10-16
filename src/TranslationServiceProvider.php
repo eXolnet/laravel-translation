@@ -152,6 +152,6 @@ class TranslationServiceProvider extends ServiceProvider
      */
     protected function getProjectPath(string $path): string
     {
-        return __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '../' . $path);
+        return __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/../' . $path);
     }
 }
