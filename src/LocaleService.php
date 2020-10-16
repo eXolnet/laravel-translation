@@ -2,6 +2,7 @@
 
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\App;
 
 class LocaleService
 {
@@ -60,6 +61,24 @@ class LocaleService
         }
 
         return Arr::get($config, $key, $default);
+    }
+
+    /**
+     * @param string $locale
+     * @param callable $callback
+     * @return mixed
+     */
+    public function pushLocale(string $locale, callable $callback)
+    {
+        $currentLocale = App::getLocale();
+
+        try {
+            App::setLocale($locale);
+
+            return $callback();
+        } finally {
+            App::setLocale($currentLocale);
+        }
     }
 
     /**

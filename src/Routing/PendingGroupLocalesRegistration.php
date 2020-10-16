@@ -3,9 +3,8 @@
 namespace Exolnet\Translation\Routing;
 
 use Exolnet\Translation\Http\Middleware\SetLocaleFromRouteLocalized;
-use Exolnet\Translation\Http\Middleware\SetLocaleFromUrlSegment;
+use Exolnet\Translation\LocaleService;
 use Illuminate\Routing\Router as LaravelRouter;
-use Illuminate\Support\Facades\App;
 
 class PendingGroupLocalesRegistration
 {
@@ -78,8 +77,8 @@ class PendingGroupLocalesRegistration
     {
         $this->registered = true;
 
+        $localeService = app(LocaleService::class);
         $locales = $this->options['locales'] ?? $this->router->getLocales();
-        $currentLocale = App::getLocale();
 
         foreach ($locales as $locale) {
             $attributes = [
@@ -92,12 +91,10 @@ class PendingGroupLocalesRegistration
                 $attributes['prefix'] = '';
             }
 
-            App::setLocale($locale);
-
-            $this->router->group($attributes, $this->routes);
+            $localeService->pushLocale($locale, function () use ($attributes) {
+                $this->router->group($attributes, $this->routes);
+            });
         }
-
-        App::setLocale($currentLocale);
     }
 
     /**
