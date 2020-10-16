@@ -22,9 +22,9 @@ class TranslationServiceProvider extends ServiceProvider
     {
         $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
 
-        $this->loadTranslationsFrom($this->getProjectPath('config/lang'), 'translation');
+        $this->loadTranslationsFrom($this->getProjectPath('resources/lang'), 'translation');
 
-        $this->loadViewsFrom($this->getProjectPath('resources/view'), 'translation');
+        $this->loadViewsFrom($this->getProjectPath('resources/views'), 'translation');
 
         if ($this->app->runningInConsole()) {
             $this->offerPublishing();
