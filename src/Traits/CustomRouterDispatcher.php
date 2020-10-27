@@ -2,6 +2,8 @@
 
 namespace Exolnet\Translation\Traits;
 
+use Exolnet\Translation\Http\Middleware\SetLocaleFromRouteLocalized;
+
 trait CustomRouterDispatcher
 {
     /**
@@ -26,6 +28,8 @@ trait CustomRouterDispatcher
         }
 
         $newRouter->middlewarePriority = $oldRouter->middlewarePriority;
+
+        array_unshift($newRouter->middlewarePriority, SetLocaleFromRouteLocalized::class);
 
         $this->router = $newRouter;
 
