@@ -13,11 +13,12 @@ class UrlGenerator extends LaravelUrlGenerator
      */
     public function route($name, $parameters = [], $absolute = true, $locale = null)
     {
-        $nameLocalized = $name . '.' . ($parameters['locale'] ?? App::getLocale());
-
         if (is_array($parameters) && array_key_exists('locale', $parameters)) {
+            $locale = $parameters['locale'];
             unset($parameters['locale']);
         }
+
+        $nameLocalized = $name . '.' . ($locale ?? App::getLocale());
 
         if (! is_null($route = $this->routes->getByName($nameLocalized))) {
             return $this->toRoute($route, $parameters, $absolute);
