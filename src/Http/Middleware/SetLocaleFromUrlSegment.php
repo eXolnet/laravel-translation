@@ -3,6 +3,7 @@
 namespace Exolnet\Translation\Http\Middleware;
 
 use Closure;
+use Exolnet\Translation\Facades\LaravelTranslation;
 use Exolnet\Translation\LocaleService;
 use Illuminate\Foundation\Application;
 
@@ -38,11 +39,9 @@ class SetLocaleFromUrlSegment
     {
         $locale = $request->segment($segment);
 
-        if (! in_array($locale, $this->localeService->getLocales())) {
-            $locale = $this->localeService->getLocaleBase();
+        if (in_array($locale, $this->localeService->getLocales())) {
+            $this->app->setLocale($locale);
         }
-
-        $this->app->setLocale($locale);
 
         return $next($request);
     }
