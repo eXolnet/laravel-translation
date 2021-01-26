@@ -97,7 +97,7 @@ trait Translatable
     }
 
     /**
-     * @param string $key
+     * @param string $keye
      * @return mixed
      */
     private function getTranslationByLocaleKey($key)
