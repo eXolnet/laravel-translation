@@ -3,7 +3,6 @@
 
 namespace Integration\Traits;
 
-
 use Exolnet\Translation\Tests\Integration\TestCase;
 use Exolnet\Translation\Tests\Mocks\Models\Example;
 
@@ -45,6 +44,69 @@ class TranslatableTest extends TestCase
         self::assertEquals('test_en', $name[1]);
         self::assertEquals('desc_fr', $description[0]);
         self::assertEquals('desc_en', $description[1]);
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testFillTranslations():void
+    {
+        $translations = [
+            'es' => [
+                'name' => 'test_es',
+                'description' => 'desc_es'
+                ]
+        ];
+
+        $this->example->fillTranslations($translations);
+
+        $name = $this->example->getTranslations()->pluck('name');
+        self::assertEquals('test_es', $name[2]);
+        $description = $this->example->getTranslations()->pluck('description');
+        self::assertEquals('desc_es', $description[2]);
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testFillWithTranslations():void
+    {
+        $attributes = [
+                'name' => ['es' => 'test_es'],
+                'description' => ['es' => 'desc_es']
+        ];
+
+        $this->example->fillWithTranslations($attributes);
+        $name = $this->example->getTranslations()->pluck('name');
+        self::assertEquals('test_es', $name[2]);
+        $description = $this->example->getTranslations()->pluck('description');
+        self::assertEquals('desc_es', $description[2]);
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testFillWithTranslationsWithNotTranslatableAttribute():void
+    {
+        $attributes = [
+            'title'    => ['en' => 'test_title'],
+            'username' => ['en' => 'test_username'],
+            'name'     => ['en' => 'test_en']
+        ];
+
+        $this->example->fillWithTranslations($attributes);
+
+        $translatableAttributes = $this->example->translationAttributesToArray();
+        self::assertFalse(in_array('test_title', $translatableAttributes));
+        self::assertFalse(in_array('test_username', $translatableAttributes));
+        self::assertTrue(in_array('test_en', $translatableAttributes));
+
+        $exampleAttributes = $this->example->getAttributes();
+        self::assertEquals('test_title', $exampleAttributes['title']['en']);
+        self::assertEquals('test_username', $exampleAttributes['username']['en']);
     }
 
     /**
