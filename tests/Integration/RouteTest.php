@@ -4,6 +4,7 @@ namespace Exolnet\Translation\Tests\Integration;
 
 use Exolnet\Translation\Routing\RouteLocalized;
 use Illuminate\Routing\Route as LaravelRoute;
+use Illuminate\Support\Facades\App;
 
 class RouteTest extends TestCase
 {
@@ -43,6 +44,27 @@ class RouteTest extends TestCase
         $this->assertNull($route->getLocale());
         $this->assertNull($route->getLocaleBaseUri());
         $this->assertEquals('bar', $route->getName());
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testRouteLocalizationWithBindingFields(): void
+    {
+        if (version_compare(App::version(), '7.0', '<')) {
+            $this->markTestSkipped('Route binding fields was added on Laravel 7.0');
+        }
+
+        $route = new RouteLocalized('GET', 'fr/{user}/posts/{post:slug}', [
+            'as' => 'bar',
+            'uses' => function () {
+                //
+            },
+        ], 'fr');
+
+        $this->assertEquals('fr/{user}/posts/{post}', $route->uri);
+        $this->assertEquals('slug', $route->bindingFieldFor('post'));
     }
 
     /**

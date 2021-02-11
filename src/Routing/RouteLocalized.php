@@ -11,14 +11,12 @@ class RouteLocalized extends LaravelRoute
      * @param \Closure|array $action
      * @param string $locale
      */
-    public function __construct($methods, $uri, $action, $locale)
+    public function __construct($methods, $uri, $action, string $locale)
     {
-        parent::__construct($methods, $uri, $action);
+        parent::__construct($methods, $this->translateUri($uri, $locale), $action);
 
         $this->action['locale'] = $locale;
         $this->action['localeBaseUri'] = $this->buildLocaleBaseUri($uri);
-
-        $this->uri = $this->translateUri($uri);
 
         if (isset($this->action['as'])) {
             $this->action['as'] = $this->translateName($this->action['as']);
@@ -55,25 +53,29 @@ class RouteLocalized extends LaravelRoute
 
     /**
      * @param string $uri
+     * @param string $locale
      * @return string
      */
-    protected function translateUri(string $uri): string
+    protected function translateUri(string $uri, string $locale): string
     {
         $parts = explode('/', $uri);
 
-        $parts = array_map([$this, 'translateUriPart'], $parts);
+        $parts = array_map(function (string $part) use ($locale) {
+            return $this->translateUriPart($part, $locale);
+        }, $parts);
 
         return implode('/', $parts);
     }
 
     /**
      * @param string $part
+     * @param string $locale
      * @return string
      */
-    protected function translateUriPart(string $part): string
+    protected function translateUriPart(string $part, string $locale): string
     {
         $translationKey = 'routes.' . $part;
-        $translation = Lang::get($translationKey, [], $this->getLocale());
+        $translation = Lang::get($translationKey, [], $locale);
 
         if ($translation === $translationKey) {
             return $part;
