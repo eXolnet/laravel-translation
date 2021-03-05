@@ -19,8 +19,7 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->make(LocaleService::class)->setSystemLocale($this->app->getLocale());
-
+        $this->app[LocaleService::class]->setSystemLocale($this->app->getLocale());
         $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
 
         $this->loadTranslationsFrom($this->getProjectPath('resources/lang'), 'translation');
