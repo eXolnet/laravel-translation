@@ -53,7 +53,7 @@ class UrlGenerator extends LaravelUrlGenerator
                         $parameter = $alternateParameters[$key];
                     }
 
-                    if (method_exists($parameter, 'getRouteKeyLocalized')) {
+                    if (is_object($parameter) && method_exists($parameter, 'getRouteKeyLocalized')) {
                         $parameter = $parameter->getRouteKeyLocalized($locale);
                     }
 
