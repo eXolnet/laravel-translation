@@ -93,6 +93,7 @@ class UrlGeneratorTest extends TestCase
                 'en' => [
                     'id' => 'biz',
                     'unknown' => 'no-effect',
+                    'array' => ['no-exception'],
                 ]
             ])
         );
