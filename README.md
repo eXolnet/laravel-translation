@@ -3,7 +3,6 @@
 [![Latest Stable Version](https://poser.pugx.org/eXolnet/laravel-translation/v/stable?format=flat-square)](https://packagist.org/packages/eXolnet/laravel-translation)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/github/workflow/status/eXolnet/laravel-translation/tests?label=tests&style=flat-square)](https://github.com/eXolnet/laravel-translation/actions?query=workflow%3Atests)
-[![StyleCI](https://github.styleci.io/repos/140004067/shield?branch=master)](https://github.styleci.io/repos/140004067)
 [![Total Downloads](https://img.shields.io/packagist/dt/eXolnet/laravel-translation.svg?style=flat-square)](https://packagist.org/packages/eXolnet/laravel-translation)
 
 Library to manage Laravel translations
