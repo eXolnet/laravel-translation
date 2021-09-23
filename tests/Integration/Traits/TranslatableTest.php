@@ -9,7 +9,7 @@ use Exolnet\Translation\Tests\Mocks\Models\Example;
 class TranslatableTest extends TestCase
 {
     /**
-     * @var Example
+     * @var \Exolnet\Translation\Tests\Mocks\Models\Example
      */
     protected Example $example;
 
