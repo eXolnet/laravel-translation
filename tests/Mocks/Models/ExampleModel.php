@@ -6,7 +6,7 @@ namespace Exolnet\Translation\Tests\Mocks\Models;
 use Exolnet\Translation\Traits\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
-class Example extends Model
+class ExampleModel extends Model
 {
     use Translatable;
 

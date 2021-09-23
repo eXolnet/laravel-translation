@@ -4,14 +4,14 @@
 namespace Integration\Traits;
 
 use Exolnet\Translation\Tests\Integration\TestCase;
-use Exolnet\Translation\Tests\Mocks\Models\Example;
+use Exolnet\Translation\Tests\Mocks\Models\ExampleModel;
 
 class TranslatableTest extends TestCase
 {
     /**
-     * @var \Exolnet\Translation\Tests\Mocks\Models\Example
+     * @var \Exolnet\Translation\Tests\Mocks\Models\ExampleModel
      */
-    protected Example $example;
+    protected ExampleModel $example;
 
     protected function setUp(): void
     {
@@ -19,7 +19,7 @@ class TranslatableTest extends TestCase
 
         $this->app['config']->set('translatable.locales', ['en', 'fr']);
 
-        $this->example = new Example();
+        $this->example = new ExampleModel();
 
         $this->example->setAttributeTranslations('name', [
             'fr' => 'test_fr',

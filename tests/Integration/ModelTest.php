@@ -3,7 +3,7 @@
 namespace Integration;
 
 use Exolnet\Translation\Tests\Integration\TestCase;
-use Exolnet\Translation\Tests\Mocks\Models\Example;
+use Exolnet\Translation\Tests\Mocks\Models\ExampleModel;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +26,7 @@ class ModelTest extends TestCase
      */
     public function testScopeWhereHasTranslationDefaultParameters(): void
     {
-        $query = Example::query()->whereHasTranslation(function () {
+        $query = ExampleModel::query()->whereHasTranslation(function () {
             //
         });
 
@@ -48,7 +48,7 @@ class ModelTest extends TestCase
      */
     public function testScopeWhereHasTranslationWithParameters(): void
     {
-        $query = Example::query()->whereHasTranslation(function () {
+        $query = ExampleModel::query()->whereHasTranslation(function () {
             //
         }, 'fr', '>', 2);
 
@@ -70,7 +70,7 @@ class ModelTest extends TestCase
      */
     public function testScopeWhereHasTranslationWithCallback(): void
     {
-        $query = Example::query()->whereHasTranslation(function (Builder $query) {
+        $query = ExampleModel::query()->whereHasTranslation(function (Builder $query) {
             return $query->where('description', 'like', 'test');
         });
 
@@ -92,7 +92,7 @@ class ModelTest extends TestCase
      */
     public function testScopeHasTranslation(): void
     {
-        $query = Example::query()->HasTranslation('description', 'test', 'fr', 'like');
+        $query = ExampleModel::query()->HasTranslation('description', 'test', 'fr', 'like');
 
         $this->assertEquals(
             'select * from `examples` where exists (select * from `example_translations` where ' .
@@ -112,7 +112,7 @@ class ModelTest extends TestCase
      */
     public function testScopeWhereTranslation(): void
     {
-        $query = Example::query()->WhereTranslation('name', 'like', 'name1', 'fr');
+        $query = ExampleModel::query()->WhereTranslation('name', 'like', 'name1', 'fr');
 
         $this->assertEquals(
             'select * from `examples` where exists (select * from `example_translations` where ' .
@@ -132,7 +132,7 @@ class ModelTest extends TestCase
      */
     public function testScopeWhereTranslationMixedValue(): void
     {
-        $query = Example::query()->WhereTranslation('name', '>=', '2', 'fr');
+        $query = ExampleModel::query()->WhereTranslation('name', '>=', '2', 'fr');
 
         $this->assertEquals(
             'select * from `examples` where exists (select * from `example_translations` where ' .
@@ -152,7 +152,7 @@ class ModelTest extends TestCase
      */
     public function testScopeJoinTranslation(): void
     {
-        $query = Example::query()->JoinTranslation();
+        $query = ExampleModel::query()->JoinTranslation();
 
         $this->assertEquals(
             'select * from `examples` left join `example_translations` on ' .
@@ -172,7 +172,7 @@ class ModelTest extends TestCase
      */
     public function testScopeJoinTranslationWithLocaleParameter(): void
     {
-        $query = Example::query()->JoinTranslation('fr');
+        $query = ExampleModel::query()->JoinTranslation('fr');
 
         $this->assertEquals(
             'select * from `examples` left join `example_translations` on ' .
