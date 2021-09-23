@@ -11,7 +11,7 @@ class TranslatableTest extends TestCase
     /**
      * @var \Exolnet\Translation\Tests\Mocks\Models\Example
      */
-    protected Example $example;
+    protected $example;
 
     protected function setUp(): void
     {
