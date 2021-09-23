@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Integration\Facades;
-
 
 use Exolnet\Translation\Facades\LaravelTranslation;
 use Exolnet\Translation\LocaleService;

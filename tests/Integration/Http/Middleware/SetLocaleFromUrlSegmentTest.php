@@ -16,8 +16,8 @@ class SetLocaleFromUrlSegmentTest extends TestCase
     public function testLocaleCanBeConfiguredFromSegment(): void
     {
         $this->getRouter()
-            ->fallback(function(){
-            return App::getLocale();
+            ->fallback(function () {
+                return App::getLocale();
             })
             ->middleware(SetLocaleFromUrlSegment::class);
 
@@ -38,7 +38,7 @@ class SetLocaleFromUrlSegmentTest extends TestCase
     public function testLocaleFromCustomSegement(): void
     {
         $this->getRouter()
-            ->fallback(function(){
+            ->fallback(function () {
                 return App::getLocale();
             })
             ->middleware(SetLocaleFromUrlSegment::class . ':2');
@@ -57,7 +57,7 @@ class SetLocaleFromUrlSegmentTest extends TestCase
     public function testLocaleFallbackOnCurrentLocale(): void
     {
         $this->getRouter()
-            ->fallback(function(){
+            ->fallback(function () {
                 return App::getLocale();
             })
             ->middleware(SetLocaleFromUrlSegment::class);
