@@ -38,9 +38,11 @@ class SetLocaleFromUrlSegment
     {
         $locale = $request->segment($segment);
 
-        if (in_array($locale, $this->localeService->getLocales())) {
-            $this->app->setLocale($locale);
+        if (! in_array($locale, $this->localeService->getLocales())) {
+            $locale = $this->localeService->getLocaleBase();
         }
+
+        $this->app->setLocale($locale);
 
         return $next($request);
     }
