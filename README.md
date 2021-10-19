@@ -11,7 +11,7 @@ Library to manage Laravel translations
 
 Require this package with composer:
 
-```
+```bash
 composer require exolnet/laravel-translation
 ```
 
@@ -28,7 +28,9 @@ Register the service provider in `config/app.php`
 
 To make sure the routing system is using the one supporting the translation you must edit your `app/Http/Kernel.php` to add the usage of the custom user dispatcher
 
-    use \Exolnet\Translation\Traits\CustomRouterDispatcher;
+```php
+use \Exolnet\Translation\Traits\CustomRouterDispatcher;
+```
 
 Now you're ready to start using the translation in your application.
 
@@ -38,7 +40,7 @@ Now you're ready to start using the translation in your application.
 
 In order to edit the default configuration (where for e.g. you can find `available_locales`) for this package you may execute:
 
-```
+```bash
 php artisan vendor:publish --provider="Exolnet\Translation\TranslationServiceProvider"
 ```
 
@@ -79,7 +81,7 @@ Route::groupLocales(function () {
 
 To run the phpUnit tests, please use:
 
-``` bash
+```bash
 composer test
 ```
 
