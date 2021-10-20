@@ -4,8 +4,7 @@ namespace Integration;
 
 use Exolnet\Translation\Tests\Integration\TestCase;
 use Exolnet\Translation\Tests\Mocks\Models\Example;
-use \Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class ModelTest extends TestCase
 {

@@ -3,7 +3,6 @@
 namespace Exolnet\Translation\Tests\Integration;
 
 use Exolnet\Translation\Routing\UrlGenerator;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
 class UrlGeneratorTest extends TestCase
