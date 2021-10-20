@@ -78,6 +78,7 @@ class PendingGroupLocalesRegistration
         $this->registered = true;
 
         $localeService = app(LocaleService::class);
+        $localeService->setOptions($this->options);
         $locales = $this->options['locales'] ?? $this->router->getLocales();
 
         foreach ($locales as $locale) {

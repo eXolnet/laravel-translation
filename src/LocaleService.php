@@ -12,6 +12,11 @@ class LocaleService
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $options;
+
+    /**
      * @param \Illuminate\Contracts\Config\Repository $config
      */
     public function __construct(Config $config)
@@ -64,6 +69,15 @@ class LocaleService
     }
 
     /**
+     * @param string $key
+     * @return mixed
+     */
+    public function getOption(string $key)
+    {
+        return $this->options[$key] ?? null;
+    }
+
+    /**
      * @param string $locale
      * @param callable $callback
      * @return mixed
@@ -94,6 +108,17 @@ class LocaleService
         setlocale(LC_CTYPE, ...$systemConfig);
         setlocale(LC_MONETARY, ...$systemConfig);
         setlocale(LC_TIME, ...$systemConfig);
+    }
+
+    /**
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
     }
 
     /**

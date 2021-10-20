@@ -1,5 +1,6 @@
 <?php namespace Exolnet\Translation\Routing;
 
+use Exolnet\Translation\LocaleService;
 use Illuminate\Routing\Route as LaravelRoute;
 use Illuminate\Support\Facades\Lang;
 
@@ -44,6 +45,10 @@ class RouteLocalized extends LaravelRoute
         // The method parseUri was added in Laravel 7.x
         if (! method_exists($this, 'parseUri')) {
             return $uri;
+        }
+
+        if (app(LocaleService::class)->getOption('hidden_locale') === $this->getLocale() && $uri === '/') {
+            $uri = '';
         }
 
         return $this->parseUri($uri);
