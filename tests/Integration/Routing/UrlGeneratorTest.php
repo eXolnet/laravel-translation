@@ -15,10 +15,10 @@ class UrlGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        $this->getRouter()->get('/')->name('home');
-
         $this->getRouter()->groupLocales(function () {
-            $this->getRouter()->get('example', function () {
+            $this->getRouter()->get('/')->name('home');
+
+            $this->getRouter()->get('/example', function () {
                 //
             })->name('example');
         })->locales(['en', 'fr', 'es'])->hiddenBaseLocale();
@@ -135,6 +135,57 @@ class UrlGeneratorTest extends TestCase
             [
                 'en' => 'http://localhost/example?foo=bar',
                 'es' => 'http://localhost/es/example?foo=bar',
+            ],
+            URL::alternateFullUrls()
+        );
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testAlternateFullUrlsForHiddenBaseLocale(): void
+    {
+        $this->get('example?foo=bar');
+
+        $this->assertEquals(
+            [
+                'es' => 'http://localhost/es/example?foo=bar',
+                'fr' => 'http://localhost/fr/example?foo=bar',
+            ],
+            URL::alternateFullUrls()
+        );
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testAlternateFullUrlsOnHome(): void
+    {
+        $this->get('fr?foo=bar');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost?foo=bar',
+                'es' => 'http://localhost/es?foo=bar',
+            ],
+            URL::alternateFullUrls()
+        );
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testAlternateFullUrlsOnHomeForHiddenBaseLocale(): void
+    {
+        $this->get('/?foo=bar');
+
+        $this->assertEquals(
+            [
+                'es' => 'http://localhost/es?foo=bar',
+                'fr' => 'http://localhost/fr?foo=bar',
             ],
             URL::alternateFullUrls()
         );

@@ -39,7 +39,7 @@ class RouteLocalized extends LaravelRoute
      */
     protected function buildLocaleBaseUri(string $uri): string
     {
-        $uri = preg_replace('#(?<=/|\A)' . $this->getLocale() . '(?:/|\Z)#', '', $uri);
+        $uri = preg_replace('#(?<=/|\A)' . $this->getLocale() . '(?:/|\Z)#', '', $uri) ?: '/';
 
         // The method parseUri was added in Laravel 7.x
         if (! method_exists($this, 'parseUri')) {
