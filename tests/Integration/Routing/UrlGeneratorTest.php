@@ -20,6 +20,12 @@ class UrlGeneratorTest extends TestCase
             $this->getRouter()->get('/example', function () {
                 //
             })->name('example');
+
+            $this->getRouter()->get('/show/{id}', function () {
+                //
+            })->name('show');
+
+            $this->getRouter()->view('view', 'blade-view');
         })->locales(['en', 'fr', 'es'])->hiddenBaseLocale();
     }
 
@@ -185,6 +191,57 @@ class UrlGeneratorTest extends TestCase
             [
                 'es' => 'http://localhost/es?foo=bar',
                 'fr' => 'http://localhost/fr?foo=bar',
+            ],
+            URL::alternateFullUrls()
+        );
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testAlternateFullUrlsWithParameters(): void
+    {
+        $this->get('show/1?foo=bar');
+
+        $this->assertEquals(
+            [
+                'es' => 'http://localhost/es/show/1?foo=bar',
+                'fr' => 'http://localhost/fr/show/1?foo=bar',
+            ],
+            URL::alternateFullUrls()
+        );
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testAlternateFullUrlsWithParametersAlternate(): void
+    {
+        $this->get('show/1?foo=bar');
+
+        $this->assertEquals(
+            [
+                'es' => 'http://localhost/es/show/1?foo=bar',
+                'fr' => 'http://localhost/fr/show/42?foo=bar',
+            ],
+            URL::alternateFullUrls(['fr' => ['id' => 42]])
+        );
+    }
+
+    /**
+     * @return void
+     * @test
+     */
+    public function testAlternateFullUrlsForView(): void
+    {
+        $this->get('view?foo=bar');
+
+        $this->assertEquals(
+            [
+                'es' => 'http://localhost/es/view?foo=bar',
+                'fr' => 'http://localhost/fr/view?foo=bar',
             ],
             URL::alternateFullUrls()
         );

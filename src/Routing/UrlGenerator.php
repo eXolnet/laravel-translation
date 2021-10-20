@@ -39,24 +39,22 @@ class UrlGenerator extends LaravelUrlGenerator
         }
 
         $alternatesRoutes = $currentRoute->getLocaleAlternates();
-        $currentParameters = Arr::except($currentRoute->parameters(), ['view']);
+        $currentParameters = $currentRoute->parameters();
 
         return array_map(
             function (Route $route) use ($currentParameters, $alternateParametersByLocale) {
                 $locale = $route->getLocale();
-                $parameters = $currentParameters;
-                $alternateParameters = $alternateParametersByLocale[$locale] ?? [];
+                $parameters = [];
 
-                foreach ($parameters as $key => $parameter) {
-                    if (array_key_exists($key, $alternateParameters)) {
-                        $parameter = $alternateParameters[$key];
-                    }
+                foreach ($route->parameterNames() as $parameterName) {
+                    $parameter = $alternateParametersByLocale[$locale][$parameterName]
+                        ?? $currentParameters[$parameterName];
 
                     if (is_object($parameter) && method_exists($parameter, 'getRouteKeyLocalized')) {
                         $parameter = $parameter->getRouteKeyLocalized($locale);
                     }
 
-                    $parameters[$key] = $parameter;
+                    $parameters[$parameterName] = $parameter;
                 }
 
                 return $this->toRoute($route, $parameters, true);
