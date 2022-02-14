@@ -22,9 +22,9 @@ class TranslationServiceProvider extends ServiceProvider
         $this->app[LocaleService::class]->setSystemLocale($this->app->getLocale());
         $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
 
-        $this->loadTranslationsFrom($this->getProjectPath('resources/lang'), 'translation');
+        $this->loadTranslationsFrom($this->app->langPath(), 'translation');
 
-        $this->loadViewsFrom($this->getProjectPath('resources/views'), 'translation');
+        $this->loadViewsFrom($this->app->basePath('resources/views'), 'translation');
 
         if ($this->app->runningInConsole()) {
             $this->offerPublishing();
@@ -37,15 +37,15 @@ class TranslationServiceProvider extends ServiceProvider
     protected function offerPublishing(): void
     {
         $this->publishes([
-            $this->getProjectPath('config/translation.php') => config_path('translation.php'),
+            $this->app->basePath('config/translation.php') => $this->app->resourcePath('translation.php'),
         ], 'translation-config');
 
         $this->publishes([
-            $this->getProjectPath('resources/lang') => resource_path('lang/vendor/backup'),
+            $this->app->langPath() => $this->app->langPath() . DIRECTORY_SEPARATOR . 'vendor/backup',
         ], 'translation-lang');
 
         $this->publishes([
-            $this->getProjectPath('resources/views') => resource_path('views/vendor/translation'),
+            $this->app->resourcePath('views') => $this->app->resourcePath('views/vendor/translation'),
         ], 'translation-views');
     }
 
@@ -152,6 +152,6 @@ class TranslationServiceProvider extends ServiceProvider
      */
     protected function getProjectPath(string $path): string
     {
-        return __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/../' . $path);
+        return app()->basePath($path);
     }
 }
