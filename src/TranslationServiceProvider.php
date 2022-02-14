@@ -19,33 +19,35 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->setupConfig();
         $this->app[LocaleService::class]->setSystemLocale($this->app->getLocale());
         $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
 
-        $this->loadTranslationsFrom($this->getProjectPath('resources/lang'), 'translation');
+        $this->loadTranslationsFrom($this->app->langPath(), 'translation');
 
-        $this->loadViewsFrom($this->getProjectPath('resources/views'), 'translation');
-
-        if ($this->app->runningInConsole()) {
-            $this->offerPublishing();
-        }
+        $this->loadViewsFrom($this->app->resourcePath('views'), 'translation');
     }
 
     /**
+     * @param string $packageSourcePath
      * @return void
      */
-    protected function offerPublishing(): void
+    protected function offerPublishing(string $packageSourcePath): void
     {
+        $configSourcePath = realpath($packageSourcePath . 'config/translation.php');
+        $langSourcePath = realpath($packageSourcePath . 'resources/lang');
+        $viewsSourcePath = realpath($packageSourcePath . 'resources/views');
+
         $this->publishes([
-            $this->getProjectPath('config/translation.php') => config_path('translation.php'),
+            $configSourcePath => $this->app->configPath('translation.php'),
         ], 'translation-config');
 
         $this->publishes([
-            $this->getProjectPath('resources/lang') => resource_path('lang/vendor/backup'),
+            $langSourcePath => $this->app->langPath() . DIRECTORY_SEPARATOR . 'vendor/backup',
         ], 'translation-lang');
 
         $this->publishes([
-            $this->getProjectPath('resources/views') => resource_path('views/vendor/translation'),
+            $viewsSourcePath => $this->app->resourcePath('views/vendor/translation'),
         ], 'translation-views');
     }
 
@@ -58,8 +60,21 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerUrlGenerator();
         $this->registerLocaleService();
         $this->registerMixins();
+    }
 
-        $this->mergeConfigFrom($this->getProjectPath('config/translation.php'), 'translation');
+    /**
+     * @return void
+     */
+    protected function setupConfig()
+    {
+        $packageSourcePath = __DIR__ . '/../';
+
+        if ($this->app->runningInConsole()) {
+            $this->offerPublishing($packageSourcePath);
+        }
+
+        $configSourcePath = realpath($packageSourcePath . 'config/translation.php');
+        $this->mergeConfigFrom($configSourcePath, 'translation-editor');
     }
 
     /**
@@ -144,14 +159,5 @@ class TranslationServiceProvider extends ServiceProvider
         return function ($app, $request) {
             $app['url']->setRequest($request);
         };
-    }
-
-    /**
-     * @param string $path
-     * @return string
-     */
-    protected function getProjectPath(string $path): string
-    {
-        return __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/../' . $path);
     }
 }
