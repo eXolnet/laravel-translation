@@ -2,6 +2,7 @@
 
 namespace Exolnet\Translation;
 
+use Closure;
 use Exolnet\Translation\Listeners\LocaleUpdatedListener;
 use Exolnet\Translation\Mixins\RouteMixin;
 use Exolnet\Translation\Routing\Router;
@@ -19,40 +20,40 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->setupConfig();
+        $this->mergeConfigFrom($this->getPackagePath('config/translation.php'), 'translation');
+
         $this->app[LocaleService::class]->setSystemLocale($this->app->getLocale());
         $this->app[Dispatcher::class]->listen(LocaleUpdated::class, LocaleUpdatedListener::class);
 
-        $this->loadTranslationsFrom($this->app->langPath(), 'translation');
+        $this->loadTranslationsFrom($this->getPackagePath('resources/lang'), 'translation');
+        $this->loadViewsFrom($this->getPackagePath('resources/views'), 'translation');
 
-        $this->loadViewsFrom($this->app->resourcePath('views'), 'translation');
+        if ($this->app->runningInConsole()) {
+            $this->offerPublishing();
+        }
     }
 
     /**
-     * @param string $packageSourcePath
      * @return void
      */
-    protected function offerPublishing(string $packageSourcePath): void
+    protected function offerPublishing(): void
     {
-        $configSourcePath = realpath($packageSourcePath . 'config/translation.php');
-        $langSourcePath = realpath($packageSourcePath . 'resources/lang');
-        $viewsSourcePath = realpath($packageSourcePath . 'resources/views');
-
         $this->publishes([
-            $configSourcePath => $this->app->configPath('translation.php'),
+            $this->getPackagePath('config/translation.php') => $this->app->configPath('translation.php'),
         ], 'translation-config');
 
         $this->publishes([
-            $langSourcePath => $this->app->langPath() . DIRECTORY_SEPARATOR . 'vendor/backup',
+            $this->getPackagePath('resources/lang') => $this->app->langPath() . '/vendor/translation',
         ], 'translation-lang');
 
         $this->publishes([
-            $viewsSourcePath => $this->app->resourcePath('views/vendor/translation'),
+            $this->getPackagePath('resources/views') => $this->app->resourcePath('views/vendor/translation'),
         ], 'translation-views');
     }
 
     /**
      * Register the application services.
+     * @throws \ReflectionException
      */
     public function register()
     {
@@ -60,21 +61,6 @@ class TranslationServiceProvider extends ServiceProvider
         $this->registerUrlGenerator();
         $this->registerLocaleService();
         $this->registerMixins();
-    }
-
-    /**
-     * @return void
-     */
-    protected function setupConfig()
-    {
-        $packageSourcePath = __DIR__ . '/../';
-
-        if ($this->app->runningInConsole()) {
-            $this->offerPublishing($packageSourcePath);
-        }
-
-        $configSourcePath = realpath($packageSourcePath . 'config/translation.php');
-        $this->mergeConfigFrom($configSourcePath, 'translation-editor');
     }
 
     /**
@@ -89,6 +75,10 @@ class TranslationServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * @return void
+     * @throws \ReflectionException
+     */
     protected function registerMixins(): void
     {
         Route::mixin(new RouteMixin());
@@ -154,10 +144,19 @@ class TranslationServiceProvider extends ServiceProvider
      *
      * @return \Closure
      */
-    protected function requestRebinder()
+    protected function requestRebinder(): Closure
     {
         return function ($app, $request) {
             $app['url']->setRequest($request);
         };
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    protected function getPackagePath(string $path): string
+    {
+        return realpath(__DIR__ . '/../' . $path);
     }
 }
