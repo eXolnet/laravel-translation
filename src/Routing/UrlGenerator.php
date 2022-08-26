@@ -1,4 +1,6 @@
-<?php namespace Exolnet\Translation\Routing;
+<?php
+
+namespace Exolnet\Translation\Routing;
 
 use Illuminate\Routing\Route;
 use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;

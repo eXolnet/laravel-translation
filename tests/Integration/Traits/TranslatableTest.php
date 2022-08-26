@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Integration\Traits;
 
 use Exolnet\Translation\Tests\Integration\TestCase;
@@ -50,7 +49,7 @@ class TranslatableTest extends TestCase
      * @return void
      * @test
      */
-    public function testFillTranslations():void
+    public function testFillTranslations(): void
     {
         $translations = [
             'es' => [
@@ -71,7 +70,7 @@ class TranslatableTest extends TestCase
      * @return void
      * @test
      */
-    public function testFillWithTranslations():void
+    public function testFillWithTranslations(): void
     {
         $attributes = [
                 'name' => ['es' => 'test_es'],
@@ -89,7 +88,7 @@ class TranslatableTest extends TestCase
      * @return void
      * @test
      */
-    public function testFillWithTranslationsWithNotTranslatableAttribute():void
+    public function testFillWithTranslationsWithNotTranslatableAttribute(): void
     {
         $attributes = [
             'title'    => ['en' => 'test_title'],

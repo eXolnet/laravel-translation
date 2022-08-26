@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ModelTest extends TestCase
 {
-
     /**
      * @return void
      */

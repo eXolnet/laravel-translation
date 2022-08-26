@@ -8,7 +8,6 @@ use Exolnet\Translation\Tests\Integration\TestCase;
 
 class LaravelTranslationTest extends TestCase
 {
-
     public function testFacadePointToTheLocaleService(): void
     {
         $facaderoot = LaravelTranslation::getFacadeRoot();
