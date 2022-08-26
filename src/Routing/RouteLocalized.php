@@ -1,4 +1,6 @@
-<?php namespace Exolnet\Translation\Routing;
+<?php
+
+namespace Exolnet\Translation\Routing;
 
 use Illuminate\Routing\Route as LaravelRoute;
 use Illuminate\Support\Facades\Lang;
@@ -55,7 +57,7 @@ class RouteLocalized extends LaravelRoute
      */
     protected function translateName(string $name): string
     {
-        return $name .'.'. $this->getLocale();
+        return $name . '.' . $this->getLocale();
     }
 
     /**

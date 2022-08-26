@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\App;
 
 class SetLocaleFromUrlSegmentTest extends TestCase
 {
-
     /**
      * @return void
      * @test

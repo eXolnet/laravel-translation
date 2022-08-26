@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Exolnet\Translation\Tests\Mocks\Models;
 
 use Illuminate\Database\Eloquent\Model;

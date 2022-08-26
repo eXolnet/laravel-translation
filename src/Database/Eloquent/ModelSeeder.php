@@ -1,4 +1,6 @@
-<?php namespace Exolnet\Translation\Database\Eloquent;
+<?php
+
+namespace Exolnet\Translation\Database\Eloquent;
 
 use Illuminate\Database\Seeder;
 

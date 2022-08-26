@@ -1,4 +1,6 @@
-<?php namespace Exolnet\Translation\Routing;
+<?php
+
+namespace Exolnet\Translation\Routing;
 
 use Exolnet\Translation\LocaleService;
 use Illuminate\Routing\Router as LaravelRouter;

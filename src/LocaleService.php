@@ -1,4 +1,6 @@
-<?php namespace Exolnet\Translation;
+<?php
+
+namespace Exolnet\Translation;
 
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Support\Arr;

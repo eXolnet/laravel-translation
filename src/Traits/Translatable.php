@@ -1,4 +1,6 @@
-<?php namespace Exolnet\Translation\Traits;
+<?php
+
+namespace Exolnet\Translation\Traits;
 
 use Astrotomic\Translatable\Translatable as AstrotomicTranslatable;
 use Closure;
@@ -81,11 +83,11 @@ trait Translatable
         return $query
             ->leftJoin(
                 $translationTable,
-                $translationTable.'.'.$this->getRelationKey(),
+                $translationTable . '.' . $this->getRelationKey(),
                 '=',
-                $this->getTable().'.'.$this->getKeyName()
+                $this->getTable() . '.' . $this->getKeyName()
             )
-            ->where($translationTable.'.'.$localeKey, $locale);
+            ->where($translationTable . '.' . $localeKey, $locale);
     }
 
     /**
@@ -224,7 +226,7 @@ trait Translatable
      */
     public function translationsAsObject()
     {
-        $translations = new stdClass;
+        $translations = new stdClass();
 
         foreach ($this->translations as $translation) {
             $locale = $translation->locale;
