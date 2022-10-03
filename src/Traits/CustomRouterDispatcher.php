@@ -13,7 +13,6 @@ trait CustomRouterDispatcher
      */
     protected function dispatchToRouter()
     {
-
         /** @var \Illuminate\Routing\Router $oldRouter */
         $oldRouter = $this->router;
         /** @var \Exolnet\Translation\Routing\Router $newRouter */
