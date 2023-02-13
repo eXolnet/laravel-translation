@@ -66,6 +66,9 @@ class LocaleService
     }
 
     /**
+     * @deprecated This method is redundant and forces the injection of this class as a dependency
+     * when it could be avoided. Use Laravel trait \Illuminate\Support\Traits\Localizable::withLocale() instead.
+     *
      * @param string $locale
      * @param callable $callback
      * @return mixed
