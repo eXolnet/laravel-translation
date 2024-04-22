@@ -29,8 +29,8 @@ class ModelTest extends TestCase
         });
 
         $this->assertEquals(
-            'select * from `examples` where exists (select * from `example_translations` where ' .
-            '`examples`.`id` = `example_translations`.`example_id` and `locale` = ?)',
+            'select * from "examples" where exists (select * from "example_translations" where ' .
+            '"examples"."id" = "example_translations"."example_id" and "locale" = ?)',
             $query->toSql()
         );
 
@@ -51,8 +51,8 @@ class ModelTest extends TestCase
         }, 'fr', '>', 2);
 
         $this->assertEquals(
-            'select * from `examples` where (select count(*) from `example_translations` where ' .
-            '`examples`.`id` = `example_translations`.`example_id` and `locale` = ?) > 2',
+            'select * from "examples" where (select count(*) from "example_translations" where ' .
+            '"examples"."id" = "example_translations"."example_id" and "locale" = ?) > 2',
             $query->toSql()
         );
 
@@ -73,8 +73,8 @@ class ModelTest extends TestCase
         });
 
         $this->assertEquals(
-            'select * from `examples` where exists (select * from `example_translations` where ' .
-            '`examples`.`id` = `example_translations`.`example_id` and `locale` = ? and `description` like ?)',
+            'select * from "examples" where exists (select * from "example_translations" where ' .
+            '"examples"."id" = "example_translations"."example_id" and "locale" = ? and "description" like ?)',
             $query->toSql()
         );
 
@@ -93,8 +93,8 @@ class ModelTest extends TestCase
         $query = Example::query()->HasTranslation('description', 'test', 'fr', 'like');
 
         $this->assertEquals(
-            'select * from `examples` where exists (select * from `example_translations` where ' .
-            '`examples`.`id` = `example_translations`.`example_id` and `locale` = ? and `description` like ?)',
+            'select * from "examples" where exists (select * from "example_translations" where ' .
+            '"examples"."id" = "example_translations"."example_id" and "locale" = ? and "description" like ?)',
             $query->toSql()
         );
 
@@ -113,8 +113,8 @@ class ModelTest extends TestCase
         $query = Example::query()->WhereTranslation('name', 'like', 'name1', 'fr');
 
         $this->assertEquals(
-            'select * from `examples` where exists (select * from `example_translations` where ' .
-            '`examples`.`id` = `example_translations`.`example_id` and `locale` = ? and `name` like ?)',
+            'select * from "examples" where exists (select * from "example_translations" where ' .
+            '"examples"."id" = "example_translations"."example_id" and "locale" = ? and "name" like ?)',
             $query->toSql()
         );
 
@@ -133,8 +133,8 @@ class ModelTest extends TestCase
         $query = Example::query()->WhereTranslation('name', '>=', '2', 'fr');
 
         $this->assertEquals(
-            'select * from `examples` where exists (select * from `example_translations` where ' .
-            '`examples`.`id` = `example_translations`.`example_id` and `locale` = ? and `name` >= ?)',
+            'select * from "examples" where exists (select * from "example_translations" where ' .
+            '"examples"."id" = "example_translations"."example_id" and "locale" = ? and "name" >= ?)',
             $query->toSql()
         );
 
@@ -153,8 +153,8 @@ class ModelTest extends TestCase
         $query = Example::query()->JoinTranslation();
 
         $this->assertEquals(
-            'select * from `examples` left join `example_translations` on ' .
-            '`example_translations`.`example_id` = `examples`.`id` where `example_translations`.`locale` = ?',
+            'select * from "examples" left join "example_translations" on ' .
+            '"example_translations"."example_id" = "examples"."id" where "example_translations"."locale" = ?',
             $query->toSql()
         );
 
@@ -173,8 +173,8 @@ class ModelTest extends TestCase
         $query = Example::query()->JoinTranslation('fr');
 
         $this->assertEquals(
-            'select * from `examples` left join `example_translations` on ' .
-            '`example_translations`.`example_id` = `examples`.`id` where `example_translations`.`locale` = ?',
+            'select * from "examples" left join "example_translations" on ' .
+            '"example_translations"."example_id" = "examples"."id" where "example_translations"."locale" = ?',
             $query->toSql()
         );
 
