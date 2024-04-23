@@ -15,21 +15,10 @@ Require this package with composer:
 composer require exolnet/laravel-translation
 ```
 
-In Laravel 5.5, the service provider and facade will automatically get registered. For older versions of the framework, follow the steps below:
+To make sure the routing system is using the one supporting the translation you must edit your `bootstrap/app.php` to change the Application class import
 
-Register the service provider in `config/app.php`
-
-```php
-'providers' => [
-    // [...]
-    Exolnet\Translation\TranslationServiceProvider::class,
-],
-```
-
-To make sure the routing system is using the one supporting the translation you must edit your `app/Http/Kernel.php` to add the usage of the custom user dispatcher
-
-```php
-use \Exolnet\Translation\Traits\CustomRouterDispatcher;
+```bash
+sed -i '' 's/Illuminate\\Foundation\\Application/Exolnet\\Translation\\Application/g' bootstrap/app.php
 ```
 
 Now you're ready to start using the translation in your application.

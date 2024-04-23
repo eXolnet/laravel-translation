@@ -2,11 +2,16 @@
 
 namespace Exolnet\Translation\Tests\Integration;
 
+use Exolnet\Translation\Application;
 use Illuminate\Routing\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
+    protected function resolveApplication()
+    {
+        return new Application($this->getBasePath());
+    }
     /**
      * @return void
      */

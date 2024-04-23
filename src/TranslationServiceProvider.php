@@ -12,6 +12,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Events\LocaleUpdated;
 use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
+use LogicException;
 
 class TranslationServiceProvider extends ServiceProvider
 {
@@ -57,6 +58,12 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if (! $this->app instanceof Application) {
+            throw new LogicException(
+                'The application must be an instance of ' . Application::class . ' to use the Translation package.'
+            );
+        }
+
         $this->registerRouter();
         $this->registerUrlGenerator();
         $this->registerLocaleService();
