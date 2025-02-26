@@ -10,7 +10,6 @@ class RouteTest extends TestCase
 {
     /**
      * @return void
-     * @test
      */
     public function testRouteLocaleCanBeDefined(): void
     {
@@ -29,7 +28,6 @@ class RouteTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testLaravelRouteAreNotLocalized(): void
     {
@@ -48,7 +46,6 @@ class RouteTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testRouteLocalizationWithBindingFields(): void
     {
@@ -69,7 +66,6 @@ class RouteTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testGetLocaleAlternates(): void
     {

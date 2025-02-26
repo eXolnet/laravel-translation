@@ -31,7 +31,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testCustomUrlGeneratorIsRegistered(): void
     {
@@ -40,7 +39,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testFindLocalizedRouteByName(): void
     {
@@ -51,7 +49,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testRouteByNameWithoutLocalization(): void
     {
@@ -60,7 +57,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateUrls(): void
     {
@@ -77,7 +73,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateUrlsWithParameters(): void
     {
@@ -106,7 +101,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateUrlsOnNonLocalizedRoute(): void
     {
@@ -121,7 +115,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateUrlsWithoutRoute(): void
     {
@@ -130,7 +123,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateFullUrls(): void
     {
@@ -147,7 +139,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateFullUrlsForHiddenBaseLocale(): void
     {
@@ -164,7 +155,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateFullUrlsOnHome(): void
     {
@@ -181,7 +171,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateFullUrlsOnHomeForHiddenBaseLocale(): void
     {
@@ -198,7 +187,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateFullUrlsWithParameters(): void
     {
@@ -215,7 +203,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateFullUrlsWithParametersAlternate(): void
     {
@@ -232,7 +219,6 @@ class UrlGeneratorTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAlternateFullUrlsForView(): void
     {

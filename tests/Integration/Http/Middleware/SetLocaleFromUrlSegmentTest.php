@@ -10,7 +10,6 @@ class SetLocaleFromUrlSegmentTest extends TestCase
 {
     /**
      * @return void
-     * @test
      */
     public function testLocaleCanBeConfiguredFromSegment(): void
     {
@@ -32,7 +31,6 @@ class SetLocaleFromUrlSegmentTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testLocaleFromCustomSegement(): void
     {
@@ -51,7 +49,6 @@ class SetLocaleFromUrlSegmentTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testLocaleFallbackOnCurrentLocale(): void
     {
@@ -70,7 +67,6 @@ class SetLocaleFromUrlSegmentTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testLocaleWithoutSegmentFallbackOnCurrentLocale(): void
     {

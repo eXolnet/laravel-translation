@@ -20,7 +20,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeWhereHasTranslationDefaultParameters(): void
     {
@@ -42,7 +41,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeWhereHasTranslationWithParameters(): void
     {
@@ -64,7 +62,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeWhereHasTranslationWithCallback(): void
     {
@@ -86,7 +83,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeHasTranslation(): void
     {
@@ -106,7 +102,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeWhereTranslation(): void
     {
@@ -126,7 +121,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeWhereTranslationMixedValue(): void
     {
@@ -146,7 +140,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeJoinTranslation(): void
     {
@@ -166,7 +159,6 @@ class ModelTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testScopeJoinTranslationWithLocaleParameter(): void
     {

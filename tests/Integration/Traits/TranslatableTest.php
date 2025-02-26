@@ -32,7 +32,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testGetTranslations(): void
     {
@@ -47,7 +46,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testFillTranslations(): void
     {
@@ -68,7 +66,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testFillWithTranslations(): void
     {
@@ -86,7 +83,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testFillWithTranslationsWithNotTranslatableAttribute(): void
     {
@@ -110,7 +106,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testTranslationAttributesToArrayReturnFallbackLocale(): void
     {
@@ -122,7 +117,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testTranslationAttributesToArrayAfterChangedLocale(): void
     {
@@ -135,7 +129,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testTranslationAttributesToArrayWithHiddenAttributes(): void
     {
@@ -148,7 +141,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testAttributesTranslationToArray(): void
     {
@@ -162,7 +154,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testTranslationsToArray(): void
     {
@@ -178,7 +169,6 @@ class TranslatableTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testTranslationsAsObject(): void
     {
