@@ -1,6 +1,6 @@
 <?php
 
-namespace Integration\Traits;
+namespace Exolnet\Translation\Tests\Integration\Traits;
 
 use Exolnet\Translation\Tests\Integration\TestCase;
 use Exolnet\Translation\Tests\Mocks\Models\Example;

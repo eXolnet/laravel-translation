@@ -2,9 +2,7 @@
 
 namespace Exolnet\Translation\Tests\Mocks;
 
-use Illuminate\Routing\Controller;
-
-class ExampleController extends Controller
+class ExampleController
 {
     /**
      * @return string

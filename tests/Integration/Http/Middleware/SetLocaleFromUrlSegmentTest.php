@@ -1,6 +1,6 @@
 <?php
 
-namespace Integration\Http\Middleware;
+namespace Exolnet\Translation\Tests\Integration\Http\Middleware;
 
 use Exolnet\Translation\Http\Middleware\SetLocaleFromUrlSegment;
 use Exolnet\Translation\Tests\Integration\TestCase;

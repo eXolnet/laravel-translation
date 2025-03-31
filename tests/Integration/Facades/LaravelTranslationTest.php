@@ -1,6 +1,6 @@
 <?php
 
-namespace Integration\Facades;
+namespace Exolnet\Translation\Tests\Integration\Facades;
 
 use Exolnet\Translation\Facades\LaravelTranslation;
 use Exolnet\Translation\LocaleService;

@@ -1,8 +1,9 @@
 <?php
 
-namespace Exolnet\Translation\Tests\Integration;
+namespace Exolnet\Translation\Tests\Integration\Routing;
 
 use Exolnet\Translation\Routing\RouteLocalized;
+use Exolnet\Translation\Tests\Integration\TestCase;
 use Illuminate\Routing\Route as LaravelRoute;
 use Illuminate\Support\Facades\App;
 

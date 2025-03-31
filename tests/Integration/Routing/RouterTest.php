@@ -1,8 +1,9 @@
 <?php
 
-namespace Exolnet\Translation\Tests\Integration;
+namespace Exolnet\Translation\Tests\Integration\Routing;
 
 use Exolnet\Translation\Routing\Router;
+use Exolnet\Translation\Tests\Integration\TestCase;
 use Exolnet\Translation\Tests\Mocks\ExampleController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;

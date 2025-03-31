@@ -1,8 +1,7 @@
 <?php
 
-namespace Integration;
+namespace Exolnet\Translation\Tests\Integration;
 
-use Exolnet\Translation\Tests\Integration\TestCase;
 use Exolnet\Translation\Tests\Mocks\Models\Example;
 use Illuminate\Database\Eloquent\Builder;
 
