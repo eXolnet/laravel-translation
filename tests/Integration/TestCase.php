@@ -10,7 +10,7 @@ abstract class TestCase extends Orchestra
 {
     protected function resolveApplication()
     {
-        return new Application($this->getBasePath());
+        return new Application(self::applicationBasePath());
     }
     /**
      * @return void
