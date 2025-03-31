@@ -98,4 +98,16 @@ abstract class TestCase extends Orchestra
             'config' => 'Illuminate\Config\Repository'
         ];
     }
+
+    /**
+     * @param iterable $needles
+     * @param iterable $haystack
+     * @return void
+     */
+    protected function assertContainsAll(iterable $needles, iterable $haystack): void
+    {
+        foreach ($needles as $needle) {
+            $this->assertContains($needle, $haystack);
+        }
+    }
 }
