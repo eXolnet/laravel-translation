@@ -8,7 +8,6 @@ class ViewsTest extends TestCase
 {
     /**
      * @return void
-     * @test
      */
     public function testHeadAlternates(): void
     {
@@ -25,7 +24,6 @@ class ViewsTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testLinkAlternates(): void
     {
