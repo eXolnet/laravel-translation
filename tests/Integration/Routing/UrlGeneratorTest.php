@@ -1,8 +1,9 @@
 <?php
 
-namespace Exolnet\Translation\Tests\Integration;
+namespace Exolnet\Translation\Tests\Integration\Routing;
 
 use Exolnet\Translation\Routing\UrlGenerator;
+use Exolnet\Translation\Tests\Integration\TestCase;
 use Illuminate\Support\Facades\URL;
 
 class UrlGeneratorTest extends TestCase

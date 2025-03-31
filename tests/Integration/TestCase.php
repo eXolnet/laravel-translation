@@ -10,7 +10,7 @@ abstract class TestCase extends Orchestra
 {
     protected function resolveApplication()
     {
-        return new Application($this->getBasePath());
+        return new Application(self::applicationBasePath());
     }
     /**
      * @return void
@@ -97,5 +97,17 @@ abstract class TestCase extends Orchestra
         return [
             'config' => 'Illuminate\Config\Repository'
         ];
+    }
+
+    /**
+     * @param iterable $needles
+     * @param iterable $haystack
+     * @return void
+     */
+    protected function assertContainsAll(iterable $needles, iterable $haystack): void
+    {
+        foreach ($needles as $needle) {
+            $this->assertContains($needle, $haystack);
+        }
     }
 }

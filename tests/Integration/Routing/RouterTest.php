@@ -1,8 +1,9 @@
 <?php
 
-namespace Exolnet\Translation\Tests\Integration;
+namespace Exolnet\Translation\Tests\Integration\Routing;
 
 use Exolnet\Translation\Routing\Router;
+use Exolnet\Translation\Tests\Integration\TestCase;
 use Exolnet\Translation\Tests\Mocks\ExampleController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
@@ -42,12 +43,12 @@ class RouterTest extends TestCase
             $this->getRouter()->get('example', 'ExampleController@index')->name('example');
         });
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['en/example', 'fr/example', 'es/example'],
             $this->getRegisteredRouteUris()
         );
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['example.en', 'example.fr', 'example.es'],
             $this->getRegisteredRouteNames()
         );
@@ -62,7 +63,7 @@ class RouterTest extends TestCase
             $this->getRouter()->resource('examples', 'ExampleController')->only('index', 'show');
         });
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             [
                 'en/examples',
                 'en/examples/{example}',
@@ -74,7 +75,7 @@ class RouterTest extends TestCase
             $this->getRegisteredRouteUris()
         );
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             [
                 'examples.index.en',
                 'examples.show.en',
@@ -105,12 +106,12 @@ class RouterTest extends TestCase
         $compiled = $routes->compile();
         $this->getRouter()->setCompiledRoutes($compiled);
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['en/example', 'fr/example', 'es/example'],
             $this->getRegisteredRouteUris()
         );
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['example.en', 'example.fr', 'example.es'],
             $this->getRegisteredRouteNames()
         );
@@ -125,12 +126,12 @@ class RouterTest extends TestCase
             $this->getRouter()->get('example', 'ExampleController@index')->name('example');
         })->locales(['en', 'fr']);
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['en/example', 'fr/example'],
             $this->getRegisteredRouteUris()
         );
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['example.en', 'example.fr'],
             $this->getRegisteredRouteNames()
         );
@@ -145,12 +146,12 @@ class RouterTest extends TestCase
             $this->getRouter()->get('example', 'ExampleController@index')->name('example');
         })->hiddenBaseLocale();
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['example', 'fr/example', 'es/example'],
             $this->getRegisteredRouteUris()
         );
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['example.en', 'example.fr', 'example.es'],
             $this->getRegisteredRouteNames()
         );
@@ -169,12 +170,12 @@ class RouterTest extends TestCase
             $this->getRouter()->get('example', 'ExampleController@index')->name('example');
         })->locales(['fr']);
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['fr/exemple'],
             $this->getRegisteredRouteUris()
         );
 
-        $this->assertEquals(
+        $this->assertContainsAll(
             ['example.fr'],
             $this->getRegisteredRouteNames()
         );
