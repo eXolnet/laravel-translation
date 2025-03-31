@@ -11,7 +11,6 @@ class RouterTest extends TestCase
 {
     /**
      * @return void
-     * @test
      */
     public function testCustomRouterIsRegistered(): void
     {
@@ -20,7 +19,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testGetLocales(): void
     {
@@ -29,7 +27,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testGetAlternateLocales(): void
     {
@@ -38,7 +35,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testRegisterTranslatedRoute(): void
     {
@@ -59,7 +55,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testRegisterTranslatedResources(): void
     {
@@ -94,7 +89,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testRoutesCache(): void
     {
@@ -124,7 +118,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testCustomLocales(): void
     {
@@ -145,7 +138,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testHiddenBaseLocale(): void
     {
@@ -166,7 +158,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testTranslatedUri(): void
     {
@@ -191,7 +182,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testRouteAreLocalized(): void
     {
@@ -208,7 +198,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testRouteParametersAreBound(): void
     {
@@ -225,7 +214,6 @@ class RouterTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testResourcesParametersAreBound(): void
     {

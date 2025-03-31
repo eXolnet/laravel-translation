@@ -25,7 +25,6 @@ class LocaleServiceTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testPushLocale(): void
     {
@@ -40,7 +39,6 @@ class LocaleServiceTest extends TestCase
 
     /**
      * @return void
-     * @test
      */
     public function testPushLocaleWithException(): void
     {
