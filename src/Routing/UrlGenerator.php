@@ -4,7 +4,9 @@ namespace Exolnet\Translation\Routing;
 
 use Illuminate\Routing\Route;
 use Illuminate\Routing\UrlGenerator as LaravelUrlGenerator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 
 class UrlGenerator extends LaravelUrlGenerator
 {
@@ -66,11 +68,16 @@ class UrlGenerator extends LaravelUrlGenerator
 
     /**
      * @param array $alternateParametersByLocale
+     * @param array|null $queryOnly
+     * @param array|null $queryExcept
      * @return array
      */
-    public function alternateFullUrls(array $alternateParametersByLocale = []): array
-    {
-        $query = $this->request->getQueryString();
+    public function alternateFullUrls(
+        array $alternateParametersByLocale = [],
+        ?array $queryOnly = null,
+        ?array $queryExcept = null
+    ): array {
+        $query = $this->queryStringFiltered($queryOnly, $queryExcept);
 
         return array_map(
             function ($url) use ($query) {
@@ -78,5 +85,36 @@ class UrlGenerator extends LaravelUrlGenerator
             },
             $this->alternateUrls($alternateParametersByLocale)
         );
+    }
+
+    /**
+     * @param array|null $queryOnly
+     * @param array|null $queryExcept
+     * @return string|null
+     */
+    protected function queryStringFiltered(?array $queryOnly = null, ?array $queryExcept = null): ?string
+    {
+        $query = $this->request->query();
+
+        if (! $query) {
+            return null;
+        }
+
+        $queryOnly ??= Config::get('translation.alternate_urls.query.only');
+        $queryExcept ??= Config::get('translation.alternate_urls.query.except');
+
+        if (isset($queryOnly)) {
+            $query = Arr::only($query, $queryOnly);
+        }
+
+        if (isset($queryExcept)) {
+            $query = Arr::except($query, $queryExcept);
+        }
+
+        if (empty($query)) {
+            return null;
+        }
+
+        return http_build_query($query);
     }
 }

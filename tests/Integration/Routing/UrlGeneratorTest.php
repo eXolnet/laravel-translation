@@ -233,4 +233,154 @@ class UrlGeneratorTest extends TestCase
             URL::alternateFullUrls()
         );
     }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithoutQuery(): void
+    {
+        $this->get('fr/example');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example',
+                'es' => 'http://localhost/es/example',
+            ],
+            URL::alternateFullUrls([], ['foo'], ['bar'])
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithQueryOnly(): void
+    {
+        $this->get('fr/example?foo=bar&baz=qux&page=2');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example?foo=bar&page=2',
+                'es' => 'http://localhost/es/example?foo=bar&page=2',
+            ],
+            URL::alternateFullUrls([], ['foo', 'page'])
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithQueryExcept(): void
+    {
+        $this->get('fr/example?foo=bar&baz=qux&page=2');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example?foo=bar&page=2',
+                'es' => 'http://localhost/es/example?foo=bar&page=2',
+            ],
+            URL::alternateFullUrls([], null, ['baz'])
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithQueryOnlyAndExcept(): void
+    {
+        $this->get('fr/example?foo=bar&baz=qux&page=2');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example?foo=bar',
+                'es' => 'http://localhost/es/example?foo=bar',
+            ],
+            URL::alternateFullUrls([], ['foo', 'baz'], ['baz'])
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithQueryOnlyEmpty(): void
+    {
+        $this->get('fr/example?foo=bar&baz=qux');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example',
+                'es' => 'http://localhost/es/example',
+            ],
+            URL::alternateFullUrls([], [])
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithGlobalQueryExcept(): void
+    {
+        $this->app['config']->set('translation.alternate_urls.query.except', ['baz']);
+
+        $this->get('fr/example?foo=bar&baz=qux&page=2');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example?foo=bar&page=2',
+                'es' => 'http://localhost/es/example?foo=bar&page=2',
+            ],
+            URL::alternateFullUrls()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithGlobalQueryOnly(): void
+    {
+        $this->app['config']->set('translation.alternate_urls.query.only', ['foo']);
+
+        $this->get('fr/example?foo=bar&baz=qux&page=2');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example?foo=bar',
+                'es' => 'http://localhost/es/example?foo=bar',
+            ],
+            URL::alternateFullUrls()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsLocalOverridesGlobalConfig(): void
+    {
+        $this->app['config']->set('translation.alternate_urls.query.except', ['foo', 'baz']);
+
+        $this->get('fr/example?foo=bar&baz=qux&page=2');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example?foo=bar&page=2',
+                'es' => 'http://localhost/es/example?foo=bar&page=2',
+            ],
+            URL::alternateFullUrls([], null, ['baz'])
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAlternateFullUrlsWithNoQueryString(): void
+    {
+        $this->get('fr/example');
+
+        $this->assertEquals(
+            [
+                'en' => 'http://localhost/example',
+                'es' => 'http://localhost/es/example',
+            ],
+            URL::alternateFullUrls([], ['foo'])
+        );
+    }
 }
